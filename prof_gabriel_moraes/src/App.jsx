@@ -719,7 +719,7 @@ function App() {
               </p>
 
               <p className="about-text">
-                Com <strong>mais de 5 anos de experiência</strong> como
+                Com <strong>mais de 10 anos de experiência</strong> como
                 professor na rede escolar, atua no ensino de programação com
                 foco em resultados práticos e linguagem acessível. Acredita que
                 qualquer pessoa pode aprender a programar quando o conteúdo é
