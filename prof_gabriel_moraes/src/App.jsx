@@ -19,7 +19,8 @@ const text = {
     highlight1Title: "Aprendizado aplicado",
     highlight1Text: "Foque em conceitos usados no mercado e em projetos reais.",
     highlight2Title: "Material organizado",
-    highlight2Text: "Cada etapa aparece com objetivos claros e linguagem direta.",
+    highlight2Text:
+      "Cada etapa aparece com objetivos claros e linguagem direta.",
     highlight3Title: "Trajetória prática",
     highlight3Text: "Você evolui com exemplos, projetos e revisão constante.",
     techTitle: "Tecnologias para aprender hoje",
@@ -49,8 +50,24 @@ const text = {
       "Prof Gabriel Moraes • Treino e tecnologia para quem quer aprender com propósito.",
     navHome: "Início",
     navMethod: "Aprendizado",
+    navLive: "Aulas",
     navTech: "Tecnologias",
     navContact: "Contato",
+    sectionLive: "Aulas ao vivo",
+    sectionLiveTitle: "Aulas em tempo real com apoio direto do professor",
+    sectionLiveText:
+      "As aulas acontecem ao vivo, com orientação imediata do professor e interação direta do aluno em cada momento.",
+    sectionLiveSales:
+      "Você está cansado de comprar cursos online de programação e não aprender nada porque não tem como tirar suas dúvidas com o professor? Faça aulas online ao vivo em tempo real com professor para que você possa tirar suas dúvidas e desenvolver acompanhado por ele",
+    livePoint1Title: "Acompanhamento em tempo real",
+    livePoint1Text:
+      "Pergunte, tire dúvidas e receba feedback enquanto a aula acontece, sem esperas.",
+    livePoint2Title: "Foco no seu ritmo",
+    livePoint2Text:
+      "O conteúdo é ajustado ao seu nível, garantindo que você avance com segurança.",
+    livePoint3Title: "Prática guiada",
+    livePoint3Text:
+      "Exercícios e projetos são feitos com suporte passo a passo pelo professor.",
   },
   EN: {
     overlayTitle: "Choose your language",
@@ -98,8 +115,24 @@ const text = {
       "Prof Gabriel Moraes • Training and technology for learners with purpose.",
     navHome: "Home",
     navMethod: "Learning",
+    navLive: "Live classes",
     navTech: "Technologies",
     navContact: "Contact",
+    sectionLive: "Live classes",
+    sectionLiveTitle: "Live lessons with the teacher in real time",
+    sectionLiveText:
+      "Lessons happen live, with direct teacher-student interaction and guidance throughout the session.",
+    sectionLiveSales:
+      "Are you tired of buying online programming courses and learning nothing because you can’t ask your teacher questions? Join live online lessons in real time with a teacher so you can ask doubts and develop with their support.",
+    livePoint1Title: "Real-time support",
+    livePoint1Text:
+      "Ask questions, get answers and receive feedback while the class is happening.",
+    livePoint2Title: "Paced for you",
+    livePoint2Text:
+      "The lesson adapts to your level so you can progress confidently.",
+    livePoint3Title: "Guided practice",
+    livePoint3Text:
+      "Exercises and projects are completed with step-by-step teacher support.",
   },
   ES: {
     overlayTitle: "Elige el idioma",
@@ -118,7 +151,8 @@ const text = {
     highlight1Title: "Aprendizaje aplicado",
     highlight1Text: "Enfócate en conceptos usados en proyectos reales.",
     highlight2Title: "Material organizado",
-    highlight2Text: "Cada etapa aparece con objetivos claros y lenguaje directo.",
+    highlight2Text:
+      "Cada etapa aparece con objetivos claros y lenguaje directo.",
     highlight3Title: "Camino práctico",
     highlight3Text: "Avanzas con ejemplos, proyectos y revisión constante.",
     techTitle: "Tecnologías para aprender hoy",
@@ -148,8 +182,24 @@ const text = {
       "Prof Gabriel Moraes • Entrenamiento y tecnología para quienes aprenden con propósito.",
     navHome: "Inicio",
     navMethod: "Aprendizaje",
+    navLive: "Clases",
     navTech: "Tecnologías",
     navContact: "Contacto",
+    sectionLive: "Clases en vivo",
+    sectionLiveTitle: "Clases en tiempo real con el profesor",
+    sectionLiveText:
+      "Las clases son en vivo, con interacción directa entre profesor y alumno durante toda la sesión.",
+    sectionLiveSales:
+      "¿Estás cansado de comprar cursos online de programación y no aprender nada porque no puedes resolver tus dudas con el profesor? Haz clases online en vivo en tiempo real con un profesor para que puedas preguntar tus dudas y desarrollar acompañado por él",
+    livePoint1Title: "Apoyo en tiempo real",
+    livePoint1Text:
+      "Haz preguntas, recibe respuestas y feedback mientras la clase se desarrolla.",
+    livePoint2Title: "Ritmo adaptado",
+    livePoint2Text:
+      "El contenido se ajusta a tu nivel para que avances con confianza.",
+    livePoint3Title: "Práctica guiada",
+    livePoint3Text:
+      "Ejercicios y proyectos se realizan con supervisión paso a paso del profesor.",
   },
 };
 
@@ -289,6 +339,7 @@ function App() {
         <nav className="main-nav" aria-label="Menu principal">
           <a href="#inicio">{t.navHome}</a>
           <a href="#metodo">{t.navMethod}</a>
+          <a href="#aulas">{t.navLive}</a>
           <a href="#tecnologias">{t.navTech}</a>
           <a href="#contato">{t.navContact}</a>
         </nav>
@@ -884,6 +935,115 @@ function App() {
                 perder o foco.
               </p>
             </article>
+          </div>
+        </section>
+
+        {/* ── AULAS AO VIVO ── */}
+        <section id="aulas" className="section section-live">
+          <div className="section-header">
+            <p className="eyebrow">{t.sectionLive}</p>
+            <h2>{t.sectionLiveTitle}</h2>
+            <p className="section-description">{t.sectionLiveText}</p>
+            <p className="live-sales">{t.sectionLiveSales}</p>
+          </div>
+          <div className="grid-cards">
+            {[
+              {
+                title: t.livePoint1Title,
+                text: t.livePoint1Text,
+                icon: (
+                  <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M24 14C17.3726 14 12 19.3726 12 26C12 32.6274 17.3726 38 24 38C30.6274 38 36 32.6274 36 26C36 19.3726 30.6274 14 24 14Z"
+                      stroke="#10B981"
+                      strokeWidth="4"
+                    />
+                    <path
+                      d="M24 18V26L29 29"
+                      stroke="#10B981"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                ),
+              },
+              {
+                title: t.livePoint2Title,
+                text: t.livePoint2Text,
+                icon: (
+                  <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 38H34"
+                      stroke="#F59E0B"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M17 34L14 38L17 42"
+                      stroke="#F59E0B"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M31 34L34 38L31 42"
+                      stroke="#F59E0B"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M16 12L32 12C34.2091 12 36 13.7909 36 16V30C36 32.2091 34.2091 34 32 34H16C13.7909 34 12 32.2091 12 30V16C12 13.7909 13.7909 12 16 12Z"
+                      stroke="#F59E0B"
+                      strokeWidth="4"
+                    />
+                  </svg>
+                ),
+              },
+              {
+                title: t.livePoint3Title,
+                text: t.livePoint3Text,
+                icon: (
+                  <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 20H34"
+                      stroke="#38BDF8"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M14 28H24"
+                      stroke="#38BDF8"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M14 18V34C14 36.2091 15.7909 38 18 38H30C32.2091 38 34 36.2091 34 34V18"
+                      stroke="#38BDF8"
+                      strokeWidth="4"
+                    />
+                  </svg>
+                ),
+              },
+            ].map((item) => (
+              <article className="info-card" key={item.title}>
+                <div className="icon" aria-hidden="true">
+                  {item.icon}
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
