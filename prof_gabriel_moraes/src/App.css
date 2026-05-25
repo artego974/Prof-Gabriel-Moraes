@@ -203,6 +203,7 @@ a {
   background: rgba(2, 6, 23, 0.86);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeInDown 0.8s ease-out;
 }
 
 .brand {
@@ -234,6 +235,7 @@ a {
 .main-nav a {
   color: #e2e8f0;
   transition: color 0.2s ease;
+  animation: fadeInDown 0.8s ease-out 0.15s backwards;
 }
 
 .main-nav a:hover {
@@ -253,6 +255,7 @@ a {
     transform 0.2s ease,
     box-shadow 0.2s ease,
     background-color 0.2s ease;
+  animation: fadeInUp 0.9s ease-out 0.15s backwards;
 }
 
 .button:hover {
@@ -261,14 +264,18 @@ a {
 
 .button-primary {
   background: linear-gradient(135deg, var(--accent), #a78bfa);
+  background-size: 200% 200%;
   color: white;
   box-shadow: 0 24px 48px rgba(124, 58, 237, 0.22);
+  animation: rotateGradient 8s ease infinite;
 }
 
 .button-secondary {
   background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  background-size: 200% 200%;
   color: #1f2937;
   border-color: rgba(245, 158, 11, 0.22);
+  animation: rotateGradient 8s ease infinite;
 }
 
 .button-secondary:hover {
@@ -352,11 +359,13 @@ a {
 /* ── SECTIONS ── */
 .section {
   padding: 80px 24px;
+  animation: fadeInUp 0.85s ease-out 0.1s backwards;
 }
 
 .section-header {
   max-width: 680px;
   margin-bottom: 36px;
+  animation: fadeInLeft 0.8s ease-out backwards;
 }
 
 .live-sales {
@@ -420,6 +429,7 @@ a {
       transparent 30%
     );
   pointer-events: none;
+  animation: glow 10s ease-in-out infinite;
 }
 
 .hero-copy {
@@ -519,6 +529,7 @@ a {
   border-radius: 50%;
   background: rgba(124, 58, 237, 0.08);
   filter: blur(34px);
+  animation: float 9s ease-in-out infinite;
 }
 
 .card-visual {
@@ -661,7 +672,16 @@ a {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    background 0.3s ease;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.tech-pill:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 34px 90px rgba(108, 99, 255, 0.2);
+  border-color: rgba(108, 99, 255, 0.3);
+  background: rgba(15, 23, 42, 0.96);
 }
 
 .tech-pill::before {
@@ -707,17 +727,6 @@ a {
   padding-top: 3rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   animation: fadeInUp 0.8s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .tech-stacks-grid {
@@ -1044,6 +1053,7 @@ a {
   gap: 18px;
   color: #cbd5e1;
   font-size: 0.95rem;
+  animation: fadeInUp 0.9s ease-out 0.2s backwards;
 }
 
 .footer-links {
@@ -1073,6 +1083,49 @@ a {
   }
 }
 
+@media (max-width: 860px) {
+  .hero {
+    gap: 32px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+  }
+
+  .hero-text {
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    width: 100%;
+  }
+
+  .card-visual {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .tech-stack-grid,
+  .grid-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 720px) {
   .app-shell {
     padding: 18px 16px 30px;
@@ -1089,11 +1142,32 @@ a {
     width: 100%;
   }
 
+  .hero-copy h1 {
+    font-size: clamp(2.2rem, 8vw, 3.4rem);
+  }
+
+  .hero-actions,
   .hero-highlights,
   .grid-cards,
   .tech-stack-grid,
   .tech-stacks-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .button,
+  .stack-button,
+  .cta-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tech-pill {
+    min-height: auto;
+    padding: 24px 20px;
   }
 
   .cta-card {

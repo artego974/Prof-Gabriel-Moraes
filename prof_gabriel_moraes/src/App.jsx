@@ -68,6 +68,44 @@ const text = {
     livePoint3Title: "Prática guiada",
     livePoint3Text:
       "Exercícios e projetos são feitos com suporte passo a passo pelo professor.",
+    visualBubble: "Aprenda com exemplos práticos e objetivos.",
+    aboutEyebrow: "Quem sou eu",
+    aboutTitle: "Prof. Gabriel Moraes",
+    aboutBio1:
+      "Graduado em Sistemas para Internet pelo IFSul, com formação em Pedagogia e especialista em Administração, Orientação e Supervisão Escolar e Saúde Digital pela UFG, mestre em Tecnologia da Informação e Gestão em Saúde pela UFCSPA com ênfase em Sistemas Inteligentes.",
+    aboutBio2:
+      "Com mais de 10 anos de experiência como professor, ensino programação com foco em resultados práticos e linguagem acessível. Acredito que qualquer pessoa pode aprender a programar quando o conteúdo é bem estruturado e o caminho está claro.",
+    aboutTechLabel: "Tecnologias que ensino",
+    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
+    aboutBadges: [
+      "🎓 IFSul — Sistemas para Internet",
+      "📚 Pedagogia & Supervisão Escolar",
+      "🏥 Saúde Digital — UFG",
+      "🤖 Mestrado TI & Saúde — UFCSPA",
+      "🏫 +10 anos em sala de aula",
+    ],
+    methodCard1Title: "Aprenda com foco",
+    methodCard1Text:
+      "Materiais estruturados em ciclos de aprendizado rápido para você avançar com segurança.",
+    methodCard2Title: "Conteúdo relevante",
+    methodCard2Text:
+      "Você encontra os conceitos certos para evoluir de forma prática e aplicável no mercado.",
+    methodCard3Title: "Suporte contínuo",
+    methodCard3Text:
+      "Aprenda com acompanhamento constante, para avançar sem perder o foco.",
+    methodCard4Title: "Impacto real",
+    methodCard4Text:
+      "Estude tecnologias que são usadas em projetos reais do mercado atual.",
+    stacksTitle: "Stacks completos de aprendizado",
+    stacksText:
+      "Aprenda as tecnologias em conjunto com trilhas organizadas. Cada stack é uma jornada pensada para você dominar uma área específica.",
+    stackNames: {
+      frontend: "Frontend",
+      backend: "Backend",
+      data: "Dados",
+      mobile: "Mobile",
+      languages: "Linguagens",
+    },
   },
   EN: {
     overlayTitle: "Choose your language",
@@ -133,6 +171,43 @@ const text = {
     livePoint3Title: "Guided practice",
     livePoint3Text:
       "Exercises and projects are completed with step-by-step teacher support.",
+    visualBubble: "Learn with practical, goal-driven examples.",
+    aboutEyebrow: "Who I am",
+    aboutTitle: "Prof. Gabriel Moraes",
+    aboutBio1:
+      "Graduated in Internet Systems from IFSul, with pedagogical training in Education, specialist in Administration, Guidance and School Supervision, and Digital Health from UFG, and a master’s in Information Technology and Health Management from UFCSPA with emphasis on Intelligent Systems.",
+    aboutBio2:
+      "With over 10 years of experience as a teacher, I teach programming with practical results and accessible language. I believe anyone can learn to code when content is well structured and the path is clear.",
+    aboutTechLabel: "Technologies I teach",
+    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
+    aboutBadges: [
+      "🎓 IFSul — Internet Systems",
+      "📚 Pedagogy & School Supervision",
+      "🏥 Digital Health — UFG",
+      "🤖 IT & Health Master’s — UFCSPA",
+      "🏫 +10 years in the classroom",
+    ],
+    methodCard1Title: "Focused learning",
+    methodCard1Text:
+      "Structured materials in fast learning cycles help you move forward with confidence.",
+    methodCard2Title: "Relevant content",
+    methodCard2Text:
+      "You find the right concepts to grow in a practical, market-ready way.",
+    methodCard3Title: "Continuous support",
+    methodCard3Text:
+      "Learn with ongoing guidance so you can keep progress without losing focus.",
+    methodCard4Title: "Real impact",
+    methodCard4Text: "Study technologies used in real market projects.",
+    stacksTitle: "Complete learning stacks",
+    stacksText:
+      "Learn technologies together through organized tracks. Each stack is a thoughtful learning path to master a specific area.",
+    stackNames: {
+      frontend: "Frontend",
+      backend: "Backend",
+      data: "Data",
+      mobile: "Mobile",
+      languages: "Languages",
+    },
   },
   ES: {
     overlayTitle: "Elige el idioma",
@@ -200,6 +275,44 @@ const text = {
     livePoint3Title: "Práctica guiada",
     livePoint3Text:
       "Ejercicios y proyectos se realizan con supervisión paso a paso del profesor.",
+    visualBubble: "Aprende con ejemplos prácticos y orientados a objetivos.",
+    aboutEyebrow: "Quién soy",
+    aboutTitle: "Prof. Gabriel Moraes",
+    aboutBio1:
+      "Graduado en Sistemas para Internet por IFSul, con formación en Pedagogía y especialista en Administración, Orientación y Supervisión Escolar y Salud Digital por la UFG, máster en Tecnología de la Información y Gestión en Salud por la UFCSPA con énfasis en Sistemas Inteligentes.",
+    aboutBio2:
+      "Con más de 10 años de experiencia como docente, enseño programación con enfoque práctico y lenguaje accesible. Creo que cualquiera puede aprender a programar cuando el contenido está bien estructurado y el camino es claro.",
+    aboutTechLabel: "Tecnologías que enseño",
+    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
+    aboutBadges: [
+      "🎓 IFSul — Sistemas para Internet",
+      "📚 Pedagogía y Supervisión Escolar",
+      "🏥 Salud Digital — UFG",
+      "🤖 Máster TI & Salud — UFCSPA",
+      "🏫 +10 años en aula",
+    ],
+    methodCard1Title: "Aprende con foco",
+    methodCard1Text:
+      "Materiales estructurados en ciclos de aprendizaje rápido para que avances con seguridad.",
+    methodCard2Title: "Contenido relevante",
+    methodCard2Text:
+      "Encuentras los conceptos correctos para crecer de forma práctica y aplicable al mercado.",
+    methodCard3Title: "Soporte continuo",
+    methodCard3Text:
+      "Aprende con seguimiento constante para avanzar sin perder el foco.",
+    methodCard4Title: "Impacto real",
+    methodCard4Text:
+      "Estudia tecnologías usadas en proyectos reales del mercado actual.",
+    stacksTitle: "Stacks completos de aprendizaje",
+    stacksText:
+      "Aprende las tecnologías juntas con rutas organizadas. Cada stack es una vía de aprendizaje pensada para dominar un área específica.",
+    stackNames: {
+      frontend: "Frontend",
+      backend: "Backend",
+      data: "Datos",
+      mobile: "Móvil",
+      languages: "Lenguajes",
+    },
   },
 };
 
@@ -735,9 +848,7 @@ function App() {
                 <circle cx="570" cy="175" r="3" fill="#FBBF24" opacity="0.7" />
                 <circle cx="558" cy="200" r="2" fill="#818CF8" opacity="0.5" />
               </svg>
-              <div className="visual-bubble">
-                Aprenda com exemplos práticos e objetivos.
-              </div>
+              <div className="visual-bubble">{t.visualBubble}</div>
             </div>
           </div>
         </section>
@@ -750,7 +861,7 @@ function App() {
                 <img src="/logo.png" alt="Prof. Gabriel Moraes" />
               </div>
               <div className="about-name">
-                <p className="eyebrow">Quem sou eu</p>
+                <p className="eyebrow">{t.aboutEyebrow}</p>
                 <h2>
                   Prof. Gabriel
                   <br />
@@ -845,11 +956,8 @@ function App() {
                   />
                 </svg>
               </div>
-              <h3>Aprenda com foco</h3>
-              <p>
-                Materiais estruturados em ciclos de aprendizado rápido para você
-                avançar com segurança.
-              </p>
+              <h3>{t.methodCard1Title}</h3>
+              <p>{t.methodCard1Text}</p>
             </article>
 
             <article className="info-card">
@@ -872,11 +980,8 @@ function App() {
                   />
                 </svg>
               </div>
-              <h3>Conteúdo relevante</h3>
-              <p>
-                Você encontra os conceitos certos para evoluir de forma prática
-                e aplicável no mercado.
-              </p>
+              <h3>{t.methodCard2Title}</h3>
+              <p>{t.methodCard2Text}</p>
             </article>
 
             <article className="info-card">
@@ -897,11 +1002,8 @@ function App() {
                   <circle cx="24" cy="20" r="4" fill="#F97316" />
                 </svg>
               </div>
-              <h3>Impacto real</h3>
-              <p>
-                Estude tecnologias que são usadas em projetos reais do mercado
-                atual.
-              </p>
+              <h3>{t.methodCard4Title}</h3>
+              <p>{t.methodCard4Text}</p>
             </article>
 
             <article className="info-card">
@@ -930,11 +1032,8 @@ function App() {
                   />
                 </svg>
               </div>
-              <h3>Suporte contínuo</h3>
-              <p>
-                Aprenda com acompanhamento e suporte constante, para avançar sem
-                perder o foco.
-              </p>
+              <h3>{t.methodCard3Title}</h3>
+              <p>{t.methodCard3Text}</p>
             </article>
           </div>
         </section>
@@ -1047,7 +1146,7 @@ function App() {
                 backgroundClip: "text",
               }}
             >
-              Stacks completos de aprendizado
+              {t.stacksTitle}
             </h3>
             <p
               style={{
@@ -1060,13 +1159,11 @@ function App() {
                 lineHeight: "1.6",
               }}
             >
-              Aprenda as tecnologias em conjunto, formando percursos completos
-              de desenvolvimento. Cada stack é uma trilha de aprendizado
-              organizada para você dominar um área específica.
+              {t.stacksText}
             </p>
             <div className="tech-stacks-grid stacks-animated">
               <div className="tech-stack-card">
-                <h4>Frontend</h4>
+                <h4>{t.stackNames.frontend}</h4>
                 <div className="stack-tags">
                   <span className="stack-tag">HTML</span>
                   <span className="stack-tag">CSS</span>
@@ -1075,7 +1172,10 @@ function App() {
                   <span className="stack-tag">TailwindCSS</span>
                 </div>
                 <a
-                  href={createWhatsAppLink(t.whatsappCourseMessage, "Frontend")}
+                  href={createWhatsAppLink(
+                    t.whatsappCourseMessage,
+                    t.stackNames.frontend,
+                  )}
                   target="_blank"
                   rel="noreferrer"
                   className="stack-button"
@@ -1085,7 +1185,7 @@ function App() {
               </div>
 
               <div className="tech-stack-card">
-                <h4>Backend</h4>
+                <h4>{t.stackNames.backend}</h4>
                 <div className="stack-tags">
                   <span className="stack-tag">Node</span>
                   <span className="stack-tag">Express</span>
@@ -1094,7 +1194,10 @@ function App() {
                   <span className="stack-tag">PHP</span>
                 </div>
                 <a
-                  href={createWhatsAppLink(t.whatsappCourseMessage, "Backend")}
+                  href={createWhatsAppLink(
+                    t.whatsappCourseMessage,
+                    t.stackNames.backend,
+                  )}
                   target="_blank"
                   rel="noreferrer"
                   className="stack-button"
@@ -1104,7 +1207,7 @@ function App() {
               </div>
 
               <div className="tech-stack-card">
-                <h4>Dados</h4>
+                <h4>{t.stackNames.data}</h4>
                 <div className="stack-tags">
                   <span className="stack-tag">MySQL</span>
                   <span className="stack-tag">MongoDB</span>
@@ -1112,7 +1215,10 @@ function App() {
                   <span className="stack-tag">TypeORM</span>
                 </div>
                 <a
-                  href={createWhatsAppLink(t.whatsappCourseMessage, "Dados")}
+                  href={createWhatsAppLink(
+                    t.whatsappCourseMessage,
+                    t.stackNames.data,
+                  )}
                   target="_blank"
                   rel="noreferrer"
                   className="stack-button"
@@ -1122,14 +1228,17 @@ function App() {
               </div>
 
               <div className="tech-stack-card">
-                <h4>Mobile</h4>
+                <h4>{t.stackNames.mobile}</h4>
                 <div className="stack-tags">
                   <span className="stack-tag">React Native</span>
                   <span className="stack-tag">JavaScript</span>
                   <span className="stack-tag">TypeScript</span>
                 </div>
                 <a
-                  href={createWhatsAppLink(t.whatsappCourseMessage, "Mobile")}
+                  href={createWhatsAppLink(
+                    t.whatsappCourseMessage,
+                    t.stackNames.mobile,
+                  )}
                   target="_blank"
                   rel="noreferrer"
                   className="stack-button"
@@ -1139,7 +1248,7 @@ function App() {
               </div>
 
               <div className="tech-stack-card">
-                <h4>Linguagens</h4>
+                <h4>{t.stackNames.languages}</h4>
                 <div className="stack-tags">
                   <span className="stack-tag">JavaScript</span>
                   <span className="stack-tag">TypeScript</span>
@@ -1150,7 +1259,7 @@ function App() {
                 <a
                   href={createWhatsAppLink(
                     t.whatsappCourseMessage,
-                    "Linguagens",
+                    t.stackNames.languages,
                   )}
                   target="_blank"
                   rel="noreferrer"
