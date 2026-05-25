@@ -358,8 +358,13 @@ a {
 
 /* ── SECTIONS ── */
 .section {
-  padding: 80px 24px;
+  padding: 100px 24px;
   animation: fadeInUp 0.85s ease-out 0.1s backwards;
+  scroll-margin-top: 140px;
+}
+
+.section + .section {
+  margin-top: 40px;
 }
 
 .section-header {
@@ -409,7 +414,7 @@ a {
   gap: 50px;
   align-items: center;
   min-height: calc(100vh - 92px);
-  padding-top: 18px;
+  padding: 22px 0 60px;
   position: relative;
 }
 
@@ -1084,6 +1089,22 @@ a {
 }
 
 @media (max-width: 860px) {
+  .site-header {
+    padding: 18px 20px;
+  }
+
+  .main-nav {
+    gap: 14px;
+  }
+
+  .app-shell main {
+    padding-top: 160px;
+  }
+
+  .section {
+    scroll-margin-top: 160px;
+  }
+
   .hero {
     gap: 32px;
   }
@@ -1131,9 +1152,19 @@ a {
     padding: 18px 16px 30px;
   }
 
+  .app-shell main {
+    padding-top: 180px;
+  }
+
   .site-header {
+    padding: 16px 18px;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .section {
+    padding: 90px 16px;
+    scroll-margin-top: 180px;
   }
 
   .main-nav {
@@ -1176,6 +1207,25 @@ a {
 
   .site-footer {
     padding: 32px 24px 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .app-shell main {
+    padding-top: 200px;
+  }
+
+  .site-header {
+    padding: 14px 16px;
+  }
+
+  .main-nav {
+    gap: 10px;
+    font-size: 0.86rem;
+  }
+
+  .section {
+    scroll-margin-top: 200px;
   }
 }
 
