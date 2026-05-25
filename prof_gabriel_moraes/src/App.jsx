@@ -357,12 +357,13 @@ function App() {
         {/* ── HERO ── */}
         <section id="inicio" className="section hero section-hero">
           <div className="hero-copy">
-            <p className="eyebrow">{t.heroEyebrow}</p>
-            <h1>{t.heroTitle}</h1>
-            <p className="hero-text">{t.heroText}</p>
+            <p className="eyebrow">{t.sectionLive}</p>
+            <h1>{t.sectionLiveTitle}</h1>
+            <p className="hero-text">{t.sectionLiveText}</p>
+            <p className="live-sales">{t.sectionLiveSales}</p>
 
             <div className="hero-actions">
-              <a href="#metodo" className="button button-primary">
+              <a href="#stacks" className="button button-primary">
                 {t.ctaPrimary}
               </a>
               <a href="#tecnologias" className="button button-secondary">
@@ -372,16 +373,16 @@ function App() {
 
             <div className="hero-highlights">
               <div>
-                <strong>{t.highlight1Title}</strong>
-                <span>{t.highlight1Text}</span>
+                <strong>{t.livePoint1Title}</strong>
+                <span>{t.livePoint1Text}</span>
               </div>
               <div>
-                <strong>{t.highlight2Title}</strong>
-                <span>{t.highlight2Text}</span>
+                <strong>{t.livePoint2Title}</strong>
+                <span>{t.livePoint2Text}</span>
               </div>
               <div>
-                <strong>{t.highlight3Title}</strong>
-                <span>{t.highlight3Text}</span>
+                <strong>{t.livePoint3Title}</strong>
+                <span>{t.livePoint3Text}</span>
               </div>
             </div>
           </div>
@@ -938,115 +939,6 @@ function App() {
           </div>
         </section>
 
-        {/* ── AULAS AO VIVO ── */}
-        <section id="aulas" className="section section-live">
-          <div className="section-header">
-            <p className="eyebrow">{t.sectionLive}</p>
-            <h2>{t.sectionLiveTitle}</h2>
-            <p className="section-description">{t.sectionLiveText}</p>
-            <p className="live-sales">{t.sectionLiveSales}</p>
-          </div>
-          <div className="grid-cards">
-            {[
-              {
-                title: t.livePoint1Title,
-                text: t.livePoint1Text,
-                icon: (
-                  <svg
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M24 14C17.3726 14 12 19.3726 12 26C12 32.6274 17.3726 38 24 38C30.6274 38 36 32.6274 36 26C36 19.3726 30.6274 14 24 14Z"
-                      stroke="#10B981"
-                      strokeWidth="4"
-                    />
-                    <path
-                      d="M24 18V26L29 29"
-                      stroke="#10B981"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t.livePoint2Title,
-                text: t.livePoint2Text,
-                icon: (
-                  <svg
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 38H34"
-                      stroke="#F59E0B"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M17 34L14 38L17 42"
-                      stroke="#F59E0B"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M31 34L34 38L31 42"
-                      stroke="#F59E0B"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M16 12L32 12C34.2091 12 36 13.7909 36 16V30C36 32.2091 34.2091 34 32 34H16C13.7909 34 12 32.2091 12 30V16C12 13.7909 13.7909 12 16 12Z"
-                      stroke="#F59E0B"
-                      strokeWidth="4"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t.livePoint3Title,
-                text: t.livePoint3Text,
-                icon: (
-                  <svg
-                    viewBox="0 0 48 48"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 20H34"
-                      stroke="#38BDF8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M14 28H24"
-                      stroke="#38BDF8"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M14 18V34C14 36.2091 15.7909 38 18 38H30C32.2091 38 34 36.2091 34 34V18"
-                      stroke="#38BDF8"
-                      strokeWidth="4"
-                    />
-                  </svg>
-                ),
-              },
-            ].map((item) => (
-              <article className="info-card" key={item.title}>
-                <div className="icon" aria-hidden="true">
-                  {item.icon}
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         {/* ── TECNOLOGIAS ── */}
         <section id="tecnologias" className="section section-tecnologias">
           <div className="section-header">
@@ -1140,6 +1032,134 @@ function App() {
                 <span className="tech-action">{t.cardAction}</span>
               </a>
             ))}
+          </div>
+
+          <div id="stacks" className="tech-stacks-container">
+            <h3
+              style={{
+                textAlign: "center",
+                marginBottom: "0.5rem",
+                fontSize: "2.5rem",
+                fontWeight: 700,
+                background: "linear-gradient(135deg, #6c63ff, #22d3ee)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Stacks completos de aprendizado
+            </h3>
+            <p
+              style={{
+                textAlign: "center",
+                color: "#cbd5e1",
+                fontSize: "1rem",
+                marginBottom: "3rem",
+                maxWidth: "600px",
+                margin: "0 auto 3rem",
+                lineHeight: "1.6",
+              }}
+            >
+              Aprenda as tecnologias em conjunto, formando percursos completos
+              de desenvolvimento. Cada stack é uma trilha de aprendizado
+              organizada para você dominar um área específica.
+            </p>
+            <div className="tech-stacks-grid stacks-animated">
+              <div className="tech-stack-card">
+                <h4>Frontend</h4>
+                <div className="stack-tags">
+                  <span className="stack-tag">HTML</span>
+                  <span className="stack-tag">CSS</span>
+                  <span className="stack-tag">JavaScript</span>
+                  <span className="stack-tag">React</span>
+                  <span className="stack-tag">TailwindCSS</span>
+                </div>
+                <a
+                  href={createWhatsAppLink(t.whatsappCourseMessage, "Frontend")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-button"
+                >
+                  {t.cardAction}
+                </a>
+              </div>
+
+              <div className="tech-stack-card">
+                <h4>Backend</h4>
+                <div className="stack-tags">
+                  <span className="stack-tag">Node</span>
+                  <span className="stack-tag">Express</span>
+                  <span className="stack-tag">TypeScript</span>
+                  <span className="stack-tag">TypeORM</span>
+                  <span className="stack-tag">PHP</span>
+                </div>
+                <a
+                  href={createWhatsAppLink(t.whatsappCourseMessage, "Backend")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-button"
+                >
+                  {t.cardAction}
+                </a>
+              </div>
+
+              <div className="tech-stack-card">
+                <h4>Dados</h4>
+                <div className="stack-tags">
+                  <span className="stack-tag">MySQL</span>
+                  <span className="stack-tag">MongoDB</span>
+                  <span className="stack-tag">Python</span>
+                  <span className="stack-tag">TypeORM</span>
+                </div>
+                <a
+                  href={createWhatsAppLink(t.whatsappCourseMessage, "Dados")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-button"
+                >
+                  {t.cardAction}
+                </a>
+              </div>
+
+              <div className="tech-stack-card">
+                <h4>Mobile</h4>
+                <div className="stack-tags">
+                  <span className="stack-tag">React Native</span>
+                  <span className="stack-tag">JavaScript</span>
+                  <span className="stack-tag">TypeScript</span>
+                </div>
+                <a
+                  href={createWhatsAppLink(t.whatsappCourseMessage, "Mobile")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-button"
+                >
+                  {t.cardAction}
+                </a>
+              </div>
+
+              <div className="tech-stack-card">
+                <h4>Linguagens</h4>
+                <div className="stack-tags">
+                  <span className="stack-tag">JavaScript</span>
+                  <span className="stack-tag">TypeScript</span>
+                  <span className="stack-tag">Python</span>
+                  <span className="stack-tag">Java</span>
+                  <span className="stack-tag">C#</span>
+                </div>
+                <a
+                  href={createWhatsAppLink(
+                    t.whatsappCourseMessage,
+                    "Linguagens",
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="stack-button"
+                >
+                  {t.cardAction}
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
