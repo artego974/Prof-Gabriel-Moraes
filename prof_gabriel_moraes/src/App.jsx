@@ -322,7 +322,7 @@ const languages = [
   { code: "ES", label: "Español" },
 ];
 
-const whatsappNumber = "55993501176";
+const whatsappNumber = "555193501176";
 
 const createWhatsAppText = (template, course = "") => {
   const message = template.replace("{course}", course);
