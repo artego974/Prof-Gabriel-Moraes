@@ -447,20 +447,33 @@ function App() {
               Gabriel <span style={{ fontWeight: 300 }}>Moraes</span>
             </strong>
           </div>
+
+          <button
+            type="button"
+            className="button button-lang button-lang-mobile"
+            onClick={() => setLangMenuOpen(true)}
+            aria-label={t.languageButton ?? "Alterar idioma"}
+          >
+            {language}
+          </button>
         </a>
 
-        <nav className="main-nav" aria-label="Menu principal">
-          <a href="#inicio">{t.navHome}</a>
-          <a href="#metodo">{t.navMethod}</a>
-          <a href="#aulas">{t.navLive}</a>
-          <a href="#tecnologias">{t.navTech}</a>
-          <a href="#contato">{t.navContact}</a>
-        </nav>
+        <div className="header-right">
+          
+          <nav className="main-nav" aria-label="Menu principal">
+            <a href="#inicio">{t.navHome}</a>
+            <a href="#metodo">{t.navMethod}</a>
+            <a href="#aulas">{t.navLive}</a>
+            <a href="#tecnologias">{t.navTech}</a>
+            <a href="#contato">{t.navContact}</a>
+          </nav>
+        </div>
 
         <button
           type="button"
-          className="button button-lang"
+          className="button button-lang button-lang-desktop"
           onClick={() => setLangMenuOpen(true)}
+          aria-label={t.languageButton ?? "Alterar idioma"}
         >
           {language}
         </button>
