@@ -459,7 +459,7 @@ function App() {
         </a>
 
         <div className="header-right">
-          
+
           <nav className="main-nav" aria-label="Menu principal">
             <a href="#inicio">{t.navHome}</a>
             <a href="#metodo">{t.navMethod}</a>
@@ -609,27 +609,24 @@ function App() {
 
             <div className="about-right">
               <p className="about-text">
-                Tecnico em <strong>Desenvolvimento de sistemas</strong> pelo Senac
-                com  especialista em{" "}
-                <strong>Administração, Orientação e Supervisão Escolar</strong>{" "}
-                e especialista em <strong>Saúde Digital</strong> pela UFG,
-                mestre em{" "}
-                <strong>Tecnologia da Informação e Gestão em Saúde</strong> pela
-                UFCSPA com ênfase em <strong>Sistemas Inteligentes</strong>.
+                Técnico em <strong>Desenvolvimento de Sistemas</strong>, com experiência em
+                desenvolvimento web, criação de aplicações modernas e soluções digitais.
+                Atua utilizando tecnologias como <strong>JavaScript, React, Tailwindcss</strong>
+                e ferramentas voltadas para a construção de interfaces intuitivas,
+                responsivas e de alta performance.
               </p>
 
               <p className="about-text">
-                Com <strong>mais de 10 anos de experiência</strong> como
-                professor na rede escolar, atua no ensino de programação com
-                foco em resultados práticos e linguagem acessível. Acredita que
-                qualquer pessoa pode aprender a programar quando o conteúdo é
-                bem estruturado e o caminho é claro.
+                Apaixonado por tecnologia e inovação, busca constantemente aprimorar suas
+                habilidades e acompanhar as tendências do mercado. Seu foco está em
+                transformar ideias em projetos funcionais, unindo qualidade técnica,
+                experiência do usuário e boas práticas de desenvolvimento.
               </p>
 
               <div className="about-tech">
                 <p className="about-tech-label">Tecnologias que ensina</p>
                 <div className="about-tech-list">
-                  {["Typescript", "React", "Node", "Tailwindcss", "TypeOrm", "Mysql", "PostgreSQL"].map(
+                  {["Typescript", "React", "Node", "Tailwindcss", "TypeOrm", "Mysql", "PostgreSQL", "Bootstrap"].map(
                     (tech) => (
                       <span key={tech} className="about-tech-tag">
                         {tech}
@@ -802,6 +799,10 @@ function App() {
                 description: "UI rápida e moderna com utilitários.",
               },
               {
+                label: "Bootstrap",
+                description: "Templates para projetos rápidos.",
+              },
+              {
                 label: "React",
                 description: "Construção de interfaces reativas e escaláveis.",
               },
@@ -831,6 +832,9 @@ function App() {
               {
                 label: "MySQL",
                 description: "Banco relacional usado em projetos empresariais.",
+              },
+              {
+                label: "PostgreSQL",
               },
               {
                 label: "MongoDB",
