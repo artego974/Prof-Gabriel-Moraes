@@ -611,7 +611,7 @@ function App() {
               <p className="about-text">
                 Técnico em <strong>Desenvolvimento de Sistemas</strong>, com experiência em
                 desenvolvimento web, criação de aplicações modernas e soluções digitais.
-                Atua utilizando tecnologias como <strong>JavaScript, React, Tailwindcss</strong>
+                Atua utilizando tecnologias como <strong>JavaScript, React, Tailwindcss </strong>
                 e ferramentas voltadas para a construção de interfaces intuitivas,
                 responsivas e de alta performance.
               </p>
