@@ -629,7 +629,7 @@ function App() {
               <div className="about-tech">
                 <p className="about-tech-label">Tecnologias que ensina</p>
                 <div className="about-tech-list">
-                  {["Python", "C#", "Node", "React Native", "Java"].map(
+                  {["Typescript", "React", "Node", "Tailwindcss", "TypeOrm", "Mysql", "PostgreSQL"].map(
                     (tech) => (
                       <span key={tech} className="about-tech-tag">
                         {tech}
@@ -641,16 +641,13 @@ function App() {
 
               <div className="about-badges">
                 <span className="about-badge">
-                  🎓 IFSul — Sistemas para Internet
+                  🎓 Senac — Tecnico em Desenvolvimento de Sistemas
                 </span>
                 <span className="about-badge">
                   📚 Pedagogia & Supervisão Escolar
                 </span>
-                <span className="about-badge">🏥 Saúde Digital — UFG</span>
-                <span className="about-badge">
-                  🤖 Mestrado TI & Saúde — UFCSPA
-                </span>
-                <span className="about-badge">🏫 +5 anos em sala de aula</span>
+
+
               </div>
             </div>
           </div>
