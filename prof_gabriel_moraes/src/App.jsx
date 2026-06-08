@@ -591,7 +591,7 @@ function App() {
             </div>
           </div>
         </section>
-        <section id="sobre" className="section section-about">
+        <section id="sobre-arthur" className="section section-about">
           <div className="about-card">
             <div className="about-left">
               <div className="about-avatar">
