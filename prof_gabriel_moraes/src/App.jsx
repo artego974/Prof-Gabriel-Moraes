@@ -591,6 +591,70 @@ function App() {
             </div>
           </div>
         </section>
+        <section id="sobre" className="section section-about">
+          <div className="about-card">
+            <div className="about-left">
+              <div className="about-avatar">
+                <img src="/ftArthur.png" alt="Arthur Cidade Mattjie" />
+              </div>
+              <div className="about-name">
+                <p className="eyebrow">{t.aboutEyebrow}</p>
+                <h2>
+                  Prof. Arthur
+                  <br />
+                  Mattjie
+                </h2>
+              </div>
+            </div>
+
+            <div className="about-right">
+              <p className="about-text">
+                Tecnico em <strong>Desenvolvimento de sistemas</strong> pelo Senac
+                com  especialista em{" "}
+                <strong>Administração, Orientação e Supervisão Escolar</strong>{" "}
+                e especialista em <strong>Saúde Digital</strong> pela UFG,
+                mestre em{" "}
+                <strong>Tecnologia da Informação e Gestão em Saúde</strong> pela
+                UFCSPA com ênfase em <strong>Sistemas Inteligentes</strong>.
+              </p>
+
+              <p className="about-text">
+                Com <strong>mais de 10 anos de experiência</strong> como
+                professor na rede escolar, atua no ensino de programação com
+                foco em resultados práticos e linguagem acessível. Acredita que
+                qualquer pessoa pode aprender a programar quando o conteúdo é
+                bem estruturado e o caminho é claro.
+              </p>
+
+              <div className="about-tech">
+                <p className="about-tech-label">Tecnologias que ensina</p>
+                <div className="about-tech-list">
+                  {["Python", "C#", "Node", "React Native", "Java"].map(
+                    (tech) => (
+                      <span key={tech} className="about-tech-tag">
+                        {tech}
+                      </span>
+                    ),
+                  )}
+                </div>
+              </div>
+
+              <div className="about-badges">
+                <span className="about-badge">
+                  🎓 IFSul — Sistemas para Internet
+                </span>
+                <span className="about-badge">
+                  📚 Pedagogia & Supervisão Escolar
+                </span>
+                <span className="about-badge">🏥 Saúde Digital — UFG</span>
+                <span className="about-badge">
+                  🤖 Mestrado TI & Saúde — UFCSPA
+                </span>
+                <span className="about-badge">🏫 +5 anos em sala de aula</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ── MÉTODO ── */}
         <section id="metodo" className="section section-grid">
