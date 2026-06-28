@@ -13,6 +13,10 @@ export class Course {
     @Column({ type: "varchar", default: "comprado" })
     status: string;
 
+    // Professor responsável pelo curso: 'gabriel' | 'arthur'
+    @Column({ type: "varchar", default: "gabriel" })
+    professor: string;
+
     @Column({
         type: "decimal",
         precision: 10,

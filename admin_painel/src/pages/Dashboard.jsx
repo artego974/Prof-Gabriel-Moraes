@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getStats, getStudents } from '../lib/api'
-import { formatBRL } from '../lib/format'
+import { formatBRL, professorLabel } from '../lib/format'
 
 function StatCard({ label, value, accent }) {
   return (
@@ -45,6 +45,27 @@ export default function Dashboard() {
         <StatCard label="Cursos vendidos" value={stats?.totalCursos ?? 0} accent="text-gray-900" />
         <StatCard label="Cursos concluídos" value={stats?.concluidos ?? 0} accent="text-green-600" />
         <StatCard label="Receita total" value={formatBRL(stats?.receita)} accent="text-secondary" />
+      </div>
+
+      <div className="mt-8 rounded-2xl bg-white p-6 shadow-sm">
+        <h2 className="text-lg font-bold text-gray-900">Receita por professor</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Total arrecadado com os cursos de cada professor.
+        </p>
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {(stats?.porProfessor ?? []).map((p) => (
+            <div
+              key={p.professor}
+              className="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 p-5"
+            >
+              <div>
+                <p className="font-semibold text-gray-900">{professorLabel(p.professor)}</p>
+                <p className="text-sm text-gray-500">{p.cursos} curso(s) vendido(s)</p>
+              </div>
+              <p className="text-2xl font-extrabold text-secondary">{formatBRL(p.receita)}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-8 rounded-2xl bg-white p-6 shadow-sm">

@@ -17,20 +17,36 @@ export default function StudentForm({ inicial, onSalvar, onFechar }) {
     telefone: inicial?.telefone || '',
     endereco: inicial?.endereco || '',
   })
+  const [erro, setErro] = useState('')
+  const [salvando, setSalvando] = useState(false)
 
   function handleChange(key, value) {
     setForm((f) => ({ ...f, [key]: value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!form.nome.trim()) return
-    onSalvar(form)
+    setErro('')
+    setSalvando(true)
+    try {
+      await onSalvar(form)
+    } catch (err) {
+      // Mensagem vinda da validação do backend (CPF/e-mail/telefone inválido, etc.)
+      setErro(err?.message || 'Não foi possível salvar. Verifique os dados.')
+    } finally {
+      setSalvando(false)
+    }
   }
 
   return (
     <Modal titulo={inicial ? 'Editar aluno' : 'Novo aluno'} onFechar={onFechar}>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {erro && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {erro}
+          </div>
+        )}
         {campos.map((c) => (
           <div key={c.key}>
             <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -58,9 +74,10 @@ export default function StudentForm({ inicial, onSalvar, onFechar }) {
           </button>
           <button
             type="submit"
-            className="rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-dark"
+            disabled={salvando}
+            className="rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Salvar
+            {salvando ? 'Salvando...' : 'Salvar'}
           </button>
         </div>
       </form>

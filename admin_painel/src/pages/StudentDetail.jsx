@@ -6,7 +6,7 @@ import {
   getStudent,
   updateCourse,
 } from '../lib/api'
-import { formatBRL, formatDate } from '../lib/format'
+import { formatBRL, formatDate, professorLabel } from '../lib/format'
 import CourseForm from '../components/CourseForm'
 
 function InfoRow({ label, value }) {
@@ -132,6 +132,7 @@ export default function StudentDetail() {
               <thead className="border-b border-gray-100 text-xs uppercase tracking-wide text-gray-500">
                 <tr>
                   <th className="py-2 font-semibold">Curso</th>
+                  <th className="py-2 font-semibold">Professor</th>
                   <th className="py-2 font-semibold">Status</th>
                   <th className="py-2 font-semibold">Valor</th>
                   <th className="py-2 font-semibold">Data</th>
@@ -142,6 +143,7 @@ export default function StudentDetail() {
                 {cursos.map((c) => (
                   <tr key={c.id}>
                     <td className="py-3 font-medium text-gray-900">{c.nome}</td>
+                    <td className="py-3 text-gray-600">{professorLabel(c.professor)}</td>
                     <td className="py-3">
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-semibold ${

@@ -1,16 +1,25 @@
 import { useState } from 'react'
 import Modal from './Modal'
+import { PROFESSORES, professorValorAula } from '../lib/format'
 
 export default function CourseForm({ inicial, onSalvar, onFechar }) {
+  const professorInicial = inicial?.professor || 'gabriel'
   const [form, setForm] = useState({
     nome: inicial?.nome || '',
     status: inicial?.status || 'comprado',
-    valor: inicial?.valor ?? '',
+    professor: professorInicial,
+    valor: inicial?.valor ?? professorValorAula(professorInicial),
     data: inicial?.data || new Date().toISOString().slice(0, 10),
   })
 
   function handleChange(key, value) {
     setForm((f) => ({ ...f, [key]: value }))
+  }
+
+  // Cada aula tem preço fixo por professor (Gabriel R$100, Arthur R$55).
+  // Ao trocar o professor, o valor é ajustado para a tabela dele.
+  function handleProfessor(professor) {
+    setForm((f) => ({ ...f, professor, valor: professorValorAula(professor) }))
   }
 
   function handleSubmit(e) {
@@ -60,6 +69,21 @@ export default function CourseForm({ inicial, onSalvar, onFechar }) {
               className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">Professor</label>
+          <select
+            value={form.professor}
+            onChange={(e) => handleProfessor(e.target.value)}
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+          >
+            {PROFESSORES.map((p) => (
+              <option key={p.valor} value={p.valor}>
+                {p.nome} — R$ {p.valorAula}/aula
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

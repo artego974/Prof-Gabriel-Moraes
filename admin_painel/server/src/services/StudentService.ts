@@ -15,9 +15,13 @@ interface StudentInput {
 interface CourseInput {
     nome?: string;
     status?: string;
+    professor?: string;
     valor?: number | string;
     data?: string;
 }
+
+// Professores válidos do painel.
+const PROFESSORES = ["gabriel", "arthur"] as const;
 
 export class StudentService {
     private studentRepo = AppDataSource.getRepository(Student);
@@ -29,6 +33,7 @@ export class StudentService {
             id: c.id,
             nome: c.name,
             status: c.status,
+            professor: c.professor,
             valor: Number(c.value),
             data: c.date,
         };
@@ -57,6 +62,10 @@ export class StudentService {
 
     private normalizarStatus(status?: string): string {
         return status === "concluido" ? "concluido" : "comprado";
+    }
+
+    private normalizarProfessor(professor?: string): string {
+        return PROFESSORES.includes(professor as any) ? (professor as string) : "gabriel";
     }
 
     private normalizarValor(valor?: number | string): number {
@@ -158,6 +167,7 @@ export class StudentService {
         const course = this.courseRepo.create({
             name: dados.nome.trim(),
             status: this.normalizarStatus(dados.status),
+            professor: this.normalizarProfessor(dados.professor),
             value: this.normalizarValor(dados.valor),
             date: dados.data || null,
             student,
@@ -177,6 +187,7 @@ export class StudentService {
             course.name = dados.nome.trim();
         }
         if (dados.status !== undefined) course.status = this.normalizarStatus(dados.status);
+        if (dados.professor !== undefined) course.professor = this.normalizarProfessor(dados.professor);
         if (dados.valor !== undefined) course.value = this.normalizarValor(dados.valor);
         if (dados.data !== undefined) course.date = dados.data || null;
 
@@ -204,11 +215,31 @@ export class StudentService {
             .select("COALESCE(SUM(course.value), 0)", "receita")
             .getRawOne<{ receita: string }>();
 
+        // Receita e nº de cursos agrupados por professor.
+        const porProfessorRaw = await this.courseRepo
+            .createQueryBuilder("course")
+            .select("course.professor", "professor")
+            .addSelect("COALESCE(SUM(course.value), 0)", "receita")
+            .addSelect("COUNT(*)", "cursos")
+            .groupBy("course.professor")
+            .getRawMany<{ professor: string; receita: string; cursos: string }>();
+
+        // Garante que todos os professores apareçam, mesmo sem cursos (receita 0).
+        const porProfessor = PROFESSORES.map((professor) => {
+            const linha = porProfessorRaw.find((r) => r.professor === professor);
+            return {
+                professor,
+                receita: Number(linha?.receita) || 0,
+                cursos: Number(linha?.cursos) || 0,
+            };
+        });
+
         return {
             totalAlunos,
             totalCursos,
             concluidos,
             receita: Number(resultado?.receita) || 0,
+            porProfessor,
         };
     }
 }
