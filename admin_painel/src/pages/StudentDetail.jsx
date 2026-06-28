@@ -132,6 +132,7 @@ export default function StudentDetail() {
               <thead className="border-b border-gray-100 text-xs uppercase tracking-wide text-gray-500">
                 <tr>
                   <th className="py-2 font-semibold">Curso</th>
+                  <th className="py-2 font-semibold">Tipo</th>
                   <th className="py-2 font-semibold">Professor</th>
                   <th className="py-2 font-semibold">Status</th>
                   <th className="py-2 font-semibold">Valor</th>
@@ -143,6 +144,17 @@ export default function StudentDetail() {
                 {cursos.map((c) => (
                   <tr key={c.id}>
                     <td className="py-3 font-medium text-gray-900">{c.nome}</td>
+                    <td className="py-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                          c.tipo === 'pacote'
+                            ? 'bg-indigo-100 text-indigo-700'
+                            : 'bg-gray-100 text-gray-600'
+                        }`}
+                      >
+                        {c.tipo === 'pacote' ? 'Pacote' : 'Aula'}
+                      </span>
+                    </td>
                     <td className="py-3 text-gray-600">{professorLabel(c.professor)}</td>
                     <td className="py-3">
                       <span

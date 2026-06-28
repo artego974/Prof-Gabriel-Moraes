@@ -99,6 +99,7 @@ export const studentUpdateSchema = studentCreateSchema.partial();
 export const courseCreateSchema = z.object({
     nome: z.string().trim().min(1, "O nome do curso é obrigatório"),
     status: z.enum(["comprado", "concluido"], { error: "Status inválido" }).optional(),
+    tipo: z.enum(["aula", "pacote"], { error: "Tipo inválido" }).optional(),
     professor: z.enum(["gabriel", "arthur"], { error: "Professor inválido" }).optional(),
     valor: z.coerce.number({ error: "Valor inválido" }).min(0, "Valor inválido").optional(),
     data: textoOpcional,

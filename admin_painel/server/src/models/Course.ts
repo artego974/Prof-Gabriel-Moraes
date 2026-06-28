@@ -13,6 +13,10 @@ export class Course {
     @Column({ type: "varchar", default: "comprado" })
     status: string;
 
+    // Tipo: 'aula' (preço fixo por professor) | 'pacote' (bundle, preço livre)
+    @Column({ type: "varchar", default: "aula" })
+    tipo: string;
+
     // Professor responsável pelo curso: 'gabriel' | 'arthur'
     @Column({ type: "varchar", default: "gabriel" })
     professor: string;

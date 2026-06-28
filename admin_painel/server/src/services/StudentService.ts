@@ -15,6 +15,7 @@ interface StudentInput {
 interface CourseInput {
     nome?: string;
     status?: string;
+    tipo?: string;
     professor?: string;
     valor?: number | string;
     data?: string;
@@ -33,6 +34,7 @@ export class StudentService {
             id: c.id,
             nome: c.name,
             status: c.status,
+            tipo: c.tipo,
             professor: c.professor,
             valor: Number(c.value),
             data: c.date,
@@ -66,6 +68,10 @@ export class StudentService {
 
     private normalizarProfessor(professor?: string): string {
         return PROFESSORES.includes(professor as any) ? (professor as string) : "gabriel";
+    }
+
+    private normalizarTipo(tipo?: string): string {
+        return tipo === "pacote" ? "pacote" : "aula";
     }
 
     private normalizarValor(valor?: number | string): number {
@@ -167,6 +173,7 @@ export class StudentService {
         const course = this.courseRepo.create({
             name: dados.nome.trim(),
             status: this.normalizarStatus(dados.status),
+            tipo: this.normalizarTipo(dados.tipo),
             professor: this.normalizarProfessor(dados.professor),
             value: this.normalizarValor(dados.valor),
             date: dados.data || null,
@@ -187,6 +194,7 @@ export class StudentService {
             course.name = dados.nome.trim();
         }
         if (dados.status !== undefined) course.status = this.normalizarStatus(dados.status);
+        if (dados.tipo !== undefined) course.tipo = this.normalizarTipo(dados.tipo);
         if (dados.professor !== undefined) course.professor = this.normalizarProfessor(dados.professor);
         if (dados.valor !== undefined) course.value = this.normalizarValor(dados.valor);
         if (dados.data !== undefined) course.date = dados.data || null;
@@ -215,14 +223,22 @@ export class StudentService {
             .select("COALESCE(SUM(course.value), 0)", "receita")
             .getRawOne<{ receita: string }>();
 
-        // Receita e nº de cursos agrupados por professor.
+        // Receita e contagem de aulas/pacotes agrupados por professor.
         const porProfessorRaw = await this.courseRepo
             .createQueryBuilder("course")
             .select("course.professor", "professor")
             .addSelect("COALESCE(SUM(course.value), 0)", "receita")
             .addSelect("COUNT(*)", "cursos")
+            .addSelect("SUM(CASE WHEN course.tipo = 'aula' THEN 1 ELSE 0 END)", "aulas")
+            .addSelect("SUM(CASE WHEN course.tipo = 'pacote' THEN 1 ELSE 0 END)", "pacotes")
             .groupBy("course.professor")
-            .getRawMany<{ professor: string; receita: string; cursos: string }>();
+            .getRawMany<{
+                professor: string;
+                receita: string;
+                cursos: string;
+                aulas: string;
+                pacotes: string;
+            }>();
 
         // Garante que todos os professores apareçam, mesmo sem cursos (receita 0).
         const porProfessor = PROFESSORES.map((professor) => {
@@ -231,6 +247,8 @@ export class StudentService {
                 professor,
                 receita: Number(linha?.receita) || 0,
                 cursos: Number(linha?.cursos) || 0,
+                aulas: Number(linha?.aulas) || 0,
+                pacotes: Number(linha?.pacotes) || 0,
             };
         });
 

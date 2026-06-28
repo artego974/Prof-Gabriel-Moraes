@@ -4,22 +4,39 @@ import { PROFESSORES, professorValorAula } from '../lib/format'
 
 export default function CourseForm({ inicial, onSalvar, onFechar }) {
   const professorInicial = inicial?.professor || 'gabriel'
+  const tipoInicial = inicial?.tipo || 'aula'
   const [form, setForm] = useState({
     nome: inicial?.nome || '',
     status: inicial?.status || 'comprado',
+    tipo: tipoInicial,
     professor: professorInicial,
     valor: inicial?.valor ?? professorValorAula(professorInicial),
     data: inicial?.data || new Date().toISOString().slice(0, 10),
   })
 
+  const ehPacote = form.tipo === 'pacote'
+
   function handleChange(key, value) {
     setForm((f) => ({ ...f, [key]: value }))
   }
 
-  // Cada aula tem preço fixo por professor (Gabriel R$100, Arthur R$55).
-  // Ao trocar o professor, o valor é ajustado para a tabela dele.
+  // Aula tem preço fixo por professor (Gabriel R$100, Arthur R$55); pacote tem
+  // preço livre. Ao trocar o professor de uma AULA, ajusta o valor para a tabela.
   function handleProfessor(professor) {
-    setForm((f) => ({ ...f, professor, valor: professorValorAula(professor) }))
+    setForm((f) => ({
+      ...f,
+      professor,
+      valor: f.tipo === 'aula' ? professorValorAula(professor) : f.valor,
+    }))
+  }
+
+  // Ao alternar o tipo: virando aula, volta ao preço fixo do professor.
+  function handleTipo(tipo) {
+    setForm((f) => ({
+      ...f,
+      tipo,
+      valor: tipo === 'aula' ? professorValorAula(f.professor) : f.valor,
+    }))
   }
 
   function handleSubmit(e) {
@@ -47,6 +64,17 @@ export default function CourseForm({ inicial, onSalvar, onFechar }) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">Tipo</label>
+            <select
+              value={form.tipo}
+              onChange={(e) => handleTipo(e.target.value)}
+              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+            >
+              <option value="aula">Aula</option>
+              <option value="pacote">Pacote</option>
+            </select>
+          </div>
+          <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">Status</label>
             <select
               value={form.status}
@@ -57,18 +85,27 @@ export default function CourseForm({ inicial, onSalvar, onFechar }) {
               <option value="concluido">Concluído</option>
             </select>
           </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Valor (R$)</label>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={form.valor}
-              onChange={(e) => handleChange('valor', e.target.value)}
-              placeholder="0,00"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
-            />
-          </div>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium text-gray-700">
+            Valor (R$){' '}
+            <span className="font-normal text-gray-400">
+              {ehPacote ? '— preço livre do pacote' : '— preço fixo da aula'}
+            </span>
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            value={form.valor}
+            onChange={(e) => handleChange('valor', e.target.value)}
+            readOnly={!ehPacote}
+            placeholder="0,00"
+            className={`w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 ${
+              ehPacote ? '' : 'cursor-not-allowed bg-gray-50 text-gray-500'
+            }`}
+          />
         </div>
 
         <div>

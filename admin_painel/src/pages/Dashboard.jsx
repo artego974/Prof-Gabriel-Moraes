@@ -60,7 +60,10 @@ export default function Dashboard() {
             >
               <div>
                 <p className="font-semibold text-gray-900">{professorLabel(p.professor)}</p>
-                <p className="text-sm text-gray-500">{p.cursos} curso(s) vendido(s)</p>
+                <p className="text-sm text-gray-500">
+                  {p.aulas} aula(s)
+                  {p.pacotes > 0 && ` + ${p.pacotes} pacote(s)`}
+                </p>
               </div>
               <p className="text-2xl font-extrabold text-secondary">{formatBRL(p.receita)}</p>
             </div>
