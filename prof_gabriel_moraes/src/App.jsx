@@ -1,1068 +1,865 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
+// ---------------------------------------------------------------------------
+// Professores. Dados compartilhados entre idiomas (textos ficam em `text`).
+// ---------------------------------------------------------------------------
+const MENTORS = [
+  {
+    id: "gabriel",
+    name: "Gabriel Moraes",
+    firstName: "Gabriel",
+    photo: "/logo.png",
+    photoPos: "50% 50%",
+    alt: "Retrato ilustrado de Gabriel Moraes",
+    techs: ["Python", "C#", "Java", "SQL"],
+  },
+  {
+    id: "arthur",
+    name: "Arthur",
+    firstName: "Arthur",
+    photo: "/ftArthur.png",
+    photoPos: "50% 18%",
+    alt: "Retrato ilustrado de Arthur com o troféu da Feira de Projetos SENAC 2025",
+    techs: ["JavaScript", "React", "Node", "Mobile"],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Conteúdo em três idiomas. Chaves idênticas entre PT/EN/ES.
+// ---------------------------------------------------------------------------
 const text = {
   PT: {
-    overlayTitle: "Escolha o idioma",
-    close: "Fechar menu de idioma",
-    languageButton: "Alterar idioma",
-    heroEyebrow: "Aprendizado com foco profissional",
-    heroTitle: "Domine conceitos e tecnologias com um percurso claro.",
-    heroText:
-      "Conteúdo pensado para estudantes que querem aprender com consistência e construir projetos reais. Aqui você encontra rotas de estudo confiáveis e explicações diretas.",
-    ctaPrimary: "Ver plano de aprendizado",
-    ctaSecondary: "Ver tecnologias",
-    sectionHow: "Aprendizado estruturado",
-    sectionHowTitle: "Método para quem quer resultado",
-    sectionHowText:
-      "Estudo organizado em passos, prática dirigida e tecnologias relevantes para cada fase da sua jornada.",
-    highlight1Title: "Aprendizado aplicado",
-    highlight1Text: "Foque em conceitos usados no mercado e em projetos reais.",
-    highlight2Title: "Material organizado",
-    highlight2Text:
-      "Cada etapa aparece com objetivos claros e linguagem direta.",
-    highlight3Title: "Trajetória prática",
-    highlight3Text: "Você evolui com exemplos, projetos e revisão constante.",
-    techTitle: "Tecnologias para aprender hoje",
-    techSubtitle:
-      "Linguagens, frameworks e bancos de dados que ajudam a construir seu portfólio.",
-    planTitle: "O fluxo ideal de estudo",
-    path1Title: "Fundamentos sólidos",
-    path1Text:
-      "Comece por lógica, HTML, CSS e JavaScript para formar uma base confiável.",
-    path2Title: "Aprenda a construir",
-    path2Text:
-      "Use React, Node e Express para desenvolver aplicações completas.",
-    path3Title: "Escale seu conhecimento",
-    path3Text:
-      "Adicione TypeScript, bancos de dados e deploy para projetos profissionais.",
-    ctaTitle: "Pronto para ir além?",
-    ctaSubtitle: "Seu estudo precisa ser bem direcionado.",
-    ctaText:
-      "Use o material certo para evoluir na programação sem perder tempo com tópicos desorganizados.",
-    whatsappContactMessage:
-      "Olá, gostaria de saber mais sobre como começar meus estudos em programação.",
-    whatsappCourseMessage:
-      "Olá, gostei do curso de {course}. Gostaria de saber mais detalhes sobre ele.",
-    contactLabel: "Fale conosco",
-    cardAction: "Ver mais",
-    footerText:
-      "Prof Gabriel Moraes • Treino e tecnologia para quem quer aprender com propósito.",
-    navHome: "Início",
-    navMethod: "Aprendizado",
-    navLive: "Aulas",
-    navTech: "Tecnologias",
-    navContact: "Contato",
-    sectionLive: "Aulas ao vivo",
-    sectionLiveTitle: "Aulas em tempo real com apoio direto do professor",
-    sectionLiveText:
-      "As aulas acontecem ao vivo, com orientação imediata do professor e interação direta do aluno em cada momento.",
-    sectionLiveSales:
-      "Você está cansado de comprar cursos online de programação e não aprender nada porque não tem como tirar suas dúvidas com o professor? Faça aulas online ao vivo em tempo real com professor para que você possa tirar suas dúvidas e desenvolver acompanhado por ele",
-    livePoint1Title: "Acompanhamento em tempo real",
-    livePoint1Text:
-      "Pergunte, tire dúvidas e receba feedback enquanto a aula acontece, sem esperas.",
-    livePoint2Title: "Foco no seu ritmo",
-    livePoint2Text:
-      "O conteúdo é ajustado ao seu nível, garantindo que você avance com segurança.",
-    livePoint3Title: "Prática guiada",
-    livePoint3Text:
-      "Exercícios e projetos são feitos com suporte passo a passo pelo professor.",
-    visualBubble: "Aprenda com exemplos práticos e objetivos.",
-    aboutEyebrow: "Quem sou eu",
-    aboutTitle: "Prof. Gabriel Moraes",
-    aboutBio1:
-      "Graduado em Sistemas para Internet pelo IFSul, com formação em Pedagogia e especialista em Administração, Orientação e Supervisão Escolar e Saúde Digital pela UFG, mestre em Tecnologia da Informação e Gestão em Saúde pela UFCSPA com ênfase em Sistemas Inteligentes.",
-    aboutBio2:
-      "Com mais de 10 anos de experiência como professor, ensino programação com foco em resultados práticos e linguagem acessível. Acredito que qualquer pessoa pode aprender a programar quando o conteúdo é bem estruturado e o caminho está claro.",
-    aboutTechLabel: "Tecnologias que ensino",
-    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
-    aboutBadges: [
-      "🎓 IFSul — Sistemas para Internet",
-      "📚 Pedagogia & Supervisão Escolar",
-      "🏥 Saúde Digital — UFG",
-      "🤖 Mestrado TI & Saúde — UFCSPA",
-      "🏫 +10 anos em sala de aula",
+    navSobre: "Quem ensina",
+    navMetodo: "Método",
+    navTrilhas: "Trilhas",
+    navFaq: "Dúvidas",
+    navContato: "Contato",
+
+    heroTag: "Mentoria de programação · 1:1 · 100% online",
+    heroTitleA: "Aprenda a programar com alguém",
+    heroTitleEm: "do seu lado",
+    heroTitleB: ".",
+    heroLede:
+      "Mentoria individual com plano sob medida, projetos reais e feedback direto: do primeiro “olá, mundo” ao portfólio que abre portas.",
+    ctaPrimary: "Começar conversa",
+    ctaSecondary: "Conhecer o método",
+    heroBullets: [
+      "Aulas e mentorias individuais, no seu ritmo",
+      "Plano de estudos construído para o seu objetivo",
+      "Projetos reais para o seu portfólio",
     ],
-    methodCard1Title: "Aprenda com foco",
-    methodCard1Text:
-      "Materiais estruturados em ciclos de aprendizado rápido para você avançar com segurança.",
-    methodCard2Title: "Conteúdo relevante",
-    methodCard2Text:
-      "Você encontra os conceitos certos para evoluir de forma prática e aplicável no mercado.",
-    methodCard3Title: "Suporte contínuo",
-    methodCard3Text:
-      "Aprenda com acompanhamento constante, para avançar sem perder o foco.",
-    methodCard4Title: "Impacto real",
-    methodCard4Text:
-      "Estude tecnologias que são usadas em projetos reais do mercado atual.",
-    stacksTitle: "Stacks completos de aprendizado",
-    stacksText:
-      "Aprenda as tecnologias em conjunto com trilhas organizadas. Cada stack é uma jornada pensada para você dominar uma área específica.",
-    stackNames: {
-      frontend: "Frontend",
-      backend: "Backend",
-      data: "Dados",
-      mobile: "Mobile",
-      languages: "Linguagens",
+
+    scheduleWith: "Agendar com {name}",
+    statusLine: "Vagas abertas · 1:1 · online · PT / EN / ES",
+
+    mentors: {
+      gabriel: {
+        role: "Professor & mentor",
+        cred: "Formação em tecnologia e educação",
+        bio: "Une didática, estratégia e execução para transformar interesse em habilidade, com linguagem acessível e um plano que respeita o seu ponto de partida.",
+      },
+      arthur: {
+        role: "Professor & desenvolvedor",
+        cred: "2º lugar · Feira de Projetos SENAC 2025",
+        bio: "Ensina construindo junto: projetos práticos desde o primeiro dia, correção próxima e a energia de quem está no código todos os dias.",
+      },
     },
+
+    aboutKicker: "( 01 · Quem ensina )",
+    aboutTitle: "Dois professores, um mesmo método.",
+    aboutLede:
+      "Você escolhe com quem caminhar, ou combina os dois. A didática é a mesma: prática de verdade, feedback próximo e zero enrolação.",
+    aboutList: [
+      "Ensino com foco prático, aula a aula",
+      "Mentoria orientada a resultados",
+      "Projetos com aplicação real",
+      "Acompanhamento entre as sessões",
+    ],
+
+    methodKicker: "( 02 · O método )",
+    methodTitle: "Um caminho simples, feito para gerar progresso real.",
+    methodLede: "Três etapas. Nenhuma fórmula mágica: direção, prática e constância.",
+    steps: [
+      {
+        tag: "primeira conversa",
+        title: "Diagnóstico",
+        textBody:
+          "Uma conversa para entender seu nível, seus objetivos e o melhor ponto de partida. Sem compromisso e sem julgamento.",
+      },
+      {
+        tag: "semana 1",
+        title: "Plano sob medida",
+        textBody:
+          "Montamos juntos uma trilha com foco em prática, clareza e ritmo sustentável. Nada de currículo genérico.",
+      },
+      {
+        tag: "toda semana",
+        title: "Execução com feedback",
+        textBody:
+          "Você aprende, aplica em projetos, recebe correção e ganha confiança para caminhar cada vez mais sozinho.",
+      },
+    ],
+
+    tracksKicker: "( 03 · Trilhas )",
+    tracksTitle: "Escolha por onde começar.",
+    tracksLede: "Quatro trilhas, um mesmo método. Todas começam com uma conversa de diagnóstico.",
+    trackAction: "Conversar sobre esta trilha",
+    tracks: [
+      {
+        name: "Frontend",
+        textBody: "Interfaces modernas, UX e desenvolvimento web completo: HTML, CSS, JavaScript e React.",
+      },
+      {
+        name: "Backend",
+        textBody: "APIs, servidores, bancos de dados e lógica de negócio: Node, C# e Java.",
+      },
+      {
+        name: "Mobile",
+        textBody: "Aplicativos móveis com React Native, da ideia à publicação.",
+      },
+      {
+        name: "Dados",
+        textBody: "Automação, análise de dados e Python para projetos inteligentes.",
+      },
+    ],
+
+    fitKicker: "( 04 · É para você? )",
+    fitTitle: "Mentoria boa é a que serve para o seu momento.",
+    fitYesTitle: "Faz sentido se você…",
+    fitYes: [
+      "Está começando do zero e quer direção clara",
+      "Estuda por conta própria mas sente que não sai do lugar",
+      "Quer migrar de carreira com um plano realista",
+      "Prefere aprender fazendo, com alguém para tirar dúvidas",
+    ],
+    fitNoTitle: "Talvez não seja a hora se você…",
+    fitNo: [
+      "Procura fórmula mágica ou resultado da noite para o dia",
+      "Quer só um certificado, sem colocar a mão no código",
+      "Não tem nenhum tempo na semana para praticar",
+    ],
+
+    faqKicker: "( 05 · Perguntas frequentes )",
+    faqTitle: "O que costumam perguntar antes de começar.",
+    faqs: [
+      {
+        q: "Preciso já saber programar?",
+        a: "Não. O diagnóstico serve exatamente para encontrar o seu ponto de partida: do zero absoluto ao avançado.",
+      },
+      {
+        q: "Como funcionam as aulas?",
+        a: "Encontros individuais e online, com plano de estudos, projetos práticos e acompanhamento entre as sessões.",
+      },
+      {
+        q: "Com qual professor vou aprender?",
+        a: "Você escolhe na conversa de diagnóstico, Gabriel ou Arthur, de acordo com a trilha e os horários. O método é o mesmo com os dois.",
+      },
+      {
+        q: "Quanto custa?",
+        a: "Depende do formato: aula avulsa ou pacote. A primeira conversa é gratuita e sem compromisso. Nela definimos juntos o que faz sentido para você.",
+      },
+      {
+        q: "Em quanto tempo vejo resultado?",
+        a: "Depende do seu ritmo e dedicação. O que a mentoria garante é direção: você sempre vai saber o que estudar e por quê.",
+      },
+    ],
+
+    ctaTitleA: "Pronto para",
+    ctaTitleEm: "sair do lugar",
+    ctaTitleB: "?",
+    ctaText:
+      "Chama a gente no WhatsApp e conta em que ponto você está. A primeira conversa é gratuita e pode ser o começo de uma virada.",
+    ctaButton: "Chamar no WhatsApp",
+    ctaNote: "Resposta rápida · sem compromisso",
+
+    footerLine: "Ensino, estratégia e desenvolvimento profissional.",
+    floatLabel: "Falar com os professores no WhatsApp",
+
+    whatsappContactMessage: "Olá! Vi o site e quero saber mais sobre a mentoria.",
+    whatsappMentorMessage: "Olá! Vi o site e quero conversar sobre mentoria com o professor {name}.",
+    whatsappCourseMessage: "Olá! Vi o site e tenho interesse na trilha de {course}.",
   },
+
   EN: {
-    overlayTitle: "Choose your language",
-    close: "Close language menu",
-    languageButton: "Change language",
-    heroEyebrow: "Learning with a professional focus",
-    heroTitle: "Master concepts and technologies with a clear path.",
-    heroText:
-      "Content designed for learners who want consistency and real project experience. Find trusted study routes and direct explanations here.",
-    ctaPrimary: "See learning plan",
-    ctaSecondary: "View technologies",
-    sectionHow: "Structured learning",
-    sectionHowTitle: "A method for getting results",
-    sectionHowText:
-      "Learning organized into steps, guided practice, and relevant technologies for every phase of your journey.",
-    highlight1Title: "Applied learning",
-    highlight1Text: "Focus on concepts used in real market projects.",
-    highlight2Title: "Organized material",
-    highlight2Text: "Each stage appears with clear goals and direct language.",
-    highlight3Title: "Practical path",
-    highlight3Text: "You progress with examples, projects and constant review.",
-    techTitle: "Technologies to learn today",
-    techSubtitle:
-      "Languages, frameworks, and databases that help build your portfolio.",
-    planTitle: "The ideal study flow",
-    path1Title: "Solid fundamentals",
-    path1Text:
-      "Start with logic, HTML, CSS, and JavaScript to build a reliable base.",
-    path2Title: "Learn to build",
-    path2Text: "Use React, Node, and Express to develop complete applications.",
-    path3Title: "Scale your knowledge",
-    path3Text:
-      "Add TypeScript, databases, and deploy to build professional projects.",
-    ctaTitle: "Ready to go further?",
-    ctaSubtitle: "Your study needs to be well directed.",
-    ctaText:
-      "Use the right material to evolve in programming without wasting time on unfocused topics.",
-    whatsappContactMessage:
-      "Hi, I would like to learn more about how to start my programming studies.",
-    whatsappCourseMessage:
-      "Hi, I liked the {course} course. I would like to know more details about it.",
-    contactLabel: "Contact us",
-    cardAction: "Learn more",
-    footerText:
-      "Prof Gabriel Moraes • Training and technology for learners with purpose.",
-    navHome: "Home",
-    navMethod: "Learning",
-    navLive: "Live classes",
-    navTech: "Technologies",
-    navContact: "Contact",
-    sectionLive: "Live classes",
-    sectionLiveTitle: "Live lessons with the teacher in real time",
-    sectionLiveText:
-      "Lessons happen live, with direct teacher-student interaction and guidance throughout the session.",
-    sectionLiveSales:
-      "Are you tired of buying online programming courses and learning nothing because you can’t ask your teacher questions? Join live online lessons in real time with a teacher so you can ask doubts and develop with their support.",
-    livePoint1Title: "Real-time support",
-    livePoint1Text:
-      "Ask questions, get answers and receive feedback while the class is happening.",
-    livePoint2Title: "Paced for you",
-    livePoint2Text:
-      "The lesson adapts to your level so you can progress confidently.",
-    livePoint3Title: "Guided practice",
-    livePoint3Text:
-      "Exercises and projects are completed with step-by-step teacher support.",
-    visualBubble: "Learn with practical, goal-driven examples.",
-    aboutEyebrow: "Who I am",
-    aboutTitle: "Prof. Gabriel Moraes",
-    aboutBio1:
-      "Graduated in Internet Systems from IFSul, with pedagogical training in Education, specialist in Administration, Guidance and School Supervision, and Digital Health from UFG, and a master’s in Information Technology and Health Management from UFCSPA with emphasis on Intelligent Systems.",
-    aboutBio2:
-      "With over 10 years of experience as a teacher, I teach programming with practical results and accessible language. I believe anyone can learn to code when content is well structured and the path is clear.",
-    aboutTechLabel: "Technologies I teach",
-    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
-    aboutBadges: [
-      "🎓 IFSul — Internet Systems",
-      "📚 Pedagogy & School Supervision",
-      "🏥 Digital Health — UFG",
-      "🤖 IT & Health Master’s — UFCSPA",
-      "🏫 +10 years in the classroom",
+    navSobre: "Who teaches",
+    navMetodo: "Method",
+    navTrilhas: "Pathways",
+    navFaq: "FAQ",
+    navContato: "Contact",
+
+    heroTag: "Programming mentorship · 1:1 · fully online",
+    heroTitleA: "Learn to code with someone",
+    heroTitleEm: "by your side",
+    heroTitleB: ".",
+    heroLede:
+      "One-on-one mentorship with a tailored plan, real projects and direct feedback: from your first “hello, world” to a portfolio that opens doors.",
+    ctaPrimary: "Start a conversation",
+    ctaSecondary: "See the method",
+    heroBullets: [
+      "Individual lessons and mentorship, at your pace",
+      "A study plan built around your goal",
+      "Real projects for your portfolio",
     ],
-    methodCard1Title: "Focused learning",
-    methodCard1Text:
-      "Structured materials in fast learning cycles help you move forward with confidence.",
-    methodCard2Title: "Relevant content",
-    methodCard2Text:
-      "You find the right concepts to grow in a practical, market-ready way.",
-    methodCard3Title: "Continuous support",
-    methodCard3Text:
-      "Learn with ongoing guidance so you can keep progress without losing focus.",
-    methodCard4Title: "Real impact",
-    methodCard4Text: "Study technologies used in real market projects.",
-    stacksTitle: "Complete learning stacks",
-    stacksText:
-      "Learn technologies together through organized tracks. Each stack is a thoughtful learning path to master a specific area.",
-    stackNames: {
-      frontend: "Frontend",
-      backend: "Backend",
-      data: "Data",
-      mobile: "Mobile",
-      languages: "Languages",
+
+    scheduleWith: "Book with {name}",
+    statusLine: "Spots open · 1:1 · online · PT / EN / ES",
+
+    mentors: {
+      gabriel: {
+        role: "Teacher & mentor",
+        cred: "Background in technology and education",
+        bio: "Blends teaching, strategy and execution to turn interest into skill, with accessible language and a plan that respects your starting point.",
+      },
+      arthur: {
+        role: "Teacher & developer",
+        cred: "2nd place · SENAC Project Fair 2025",
+        bio: "Teaches by building together: hands-on projects from day one, close correction and the energy of someone who codes every day.",
+      },
     },
+
+    aboutKicker: "( 01 · Who teaches )",
+    aboutTitle: "Two teachers, one method.",
+    aboutLede:
+      "You choose who walks with you, or combine both. The approach is the same: real practice, close feedback and zero fluff.",
+    aboutList: [
+      "Hands-on teaching, lesson by lesson",
+      "Results-oriented mentorship",
+      "Projects with real-world application",
+      "Follow-up between sessions",
+    ],
+
+    methodKicker: "( 02 · The method )",
+    methodTitle: "A simple path, designed for real progress.",
+    methodLede: "Three steps. No magic formula: direction, practice and consistency.",
+    steps: [
+      {
+        tag: "first talk",
+        title: "Diagnosis",
+        textBody:
+          "A conversation to understand your level, your goals and the best starting point. No commitment, no judgement.",
+      },
+      {
+        tag: "week 1",
+        title: "Tailored plan",
+        textBody:
+          "Together we build a pathway focused on practice, clarity and a sustainable pace. No generic curriculum.",
+      },
+      {
+        tag: "every week",
+        title: "Execution with feedback",
+        textBody:
+          "You learn, apply it in projects, get corrections and gain the confidence to walk on your own.",
+      },
+    ],
+
+    tracksKicker: "( 03 · Pathways )",
+    tracksTitle: "Choose where to start.",
+    tracksLede: "Four pathways, one method. All of them start with a diagnosis conversation.",
+    trackAction: "Talk about this pathway",
+    tracks: [
+      {
+        name: "Frontend",
+        textBody: "Modern interfaces, UX and complete web development: HTML, CSS, JavaScript and React.",
+      },
+      {
+        name: "Backend",
+        textBody: "APIs, servers, databases and business logic: Node, C# and Java.",
+      },
+      {
+        name: "Mobile",
+        textBody: "Mobile apps with React Native, from idea to release.",
+      },
+      {
+        name: "Data",
+        textBody: "Automation, data analysis and Python for smart projects.",
+      },
+    ],
+
+    fitKicker: "( 04 · Is it for you? )",
+    fitTitle: "Good mentorship is the one that fits your moment.",
+    fitYesTitle: "It makes sense if you…",
+    fitYes: [
+      "Are starting from zero and want clear direction",
+      "Study on your own but feel stuck in place",
+      "Want to switch careers with a realistic plan",
+      "Prefer learning by doing, with someone to ask",
+    ],
+    fitNoTitle: "It may not be the time if you…",
+    fitNo: [
+      "Are looking for a magic formula or overnight results",
+      "Only want a certificate, without touching code",
+      "Have no time at all during the week to practice",
+    ],
+
+    faqKicker: "( 05 · Frequently asked )",
+    faqTitle: "What people ask before starting.",
+    faqs: [
+      {
+        q: "Do I need to know how to code already?",
+        a: "No. The diagnosis exists precisely to find your starting point: from absolute zero to advanced.",
+      },
+      {
+        q: "How do the lessons work?",
+        a: "Individual online sessions, with a study plan, practical projects and follow-up between sessions.",
+      },
+      {
+        q: "Which teacher will I learn with?",
+        a: "You choose during the diagnosis conversation, Gabriel or Arthur, based on the pathway and schedule. The method is the same with both.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "It depends on the format: single lessons or packages. The first conversation is free, with no commitment. That's where we define what fits you.",
+      },
+      {
+        q: "How soon do I see results?",
+        a: "It depends on your pace and dedication. What the mentorship guarantees is direction: you'll always know what to study and why.",
+      },
+    ],
+
+    ctaTitleA: "Ready to",
+    ctaTitleEm: "get unstuck",
+    ctaTitleB: "?",
+    ctaText:
+      "Message us on WhatsApp and tell us where you are right now. The first conversation is free and it might be the start of a turning point.",
+    ctaButton: "Message on WhatsApp",
+    ctaNote: "Fast reply · no commitment",
+
+    footerLine: "Teaching, strategy and professional growth.",
+    floatLabel: "Talk to the teachers on WhatsApp",
+
+    whatsappContactMessage: "Hi! I saw the website and I'd like to know more about the mentorship.",
+    whatsappMentorMessage: "Hi! I saw the website and I'd like to talk about mentorship with {name}.",
+    whatsappCourseMessage: "Hi! I saw the website and I'm interested in the {course} pathway.",
   },
+
   ES: {
-    overlayTitle: "Elige el idioma",
-    close: "Cerrar menú de idioma",
-    languageButton: "Cambiar idioma",
-    heroEyebrow: "Aprendizaje con enfoque profesional",
-    heroTitle: "Domina conceptos y tecnologías con un camino claro.",
-    heroText:
-      "Contenido pensado para quienes quieren consistencia y experiencia con proyectos reales. Encuentra rutas de estudio confiables y explicaciones directas.",
-    ctaPrimary: "Ver plan de aprendizaje",
-    ctaSecondary: "Ver tecnologías",
-    sectionHow: "Aprendizaje estructurado",
-    sectionHowTitle: "Método para obtener resultados",
-    sectionHowText:
-      "Aprendizaje organizado en pasos, práctica guiada y tecnologías relevantes para cada fase de tu trayectoria.",
-    highlight1Title: "Aprendizaje aplicado",
-    highlight1Text: "Enfócate en conceptos usados en proyectos reales.",
-    highlight2Title: "Material organizado",
-    highlight2Text:
-      "Cada etapa aparece con objetivos claros y lenguaje directo.",
-    highlight3Title: "Camino práctico",
-    highlight3Text: "Avanzas con ejemplos, proyectos y revisión constante.",
-    techTitle: "Tecnologías para aprender hoy",
-    techSubtitle:
-      "Lenguajes, frameworks y bases de datos para construir tu portafolio.",
-    planTitle: "El flujo de estudio ideal",
-    path1Title: "Fundamentos sólidos",
-    path1Text:
-      "Empieza con lógica, HTML, CSS y JavaScript para crear una base confiable.",
-    path2Title: "Aprende a construir",
-    path2Text:
-      "Usa React, Node y Express para desarrollar aplicaciones completas.",
-    path3Title: "Escala tu conocimiento",
-    path3Text:
-      "Agrega TypeScript, bases de datos y deploy para proyectos profesionales.",
-    ctaTitle: "¿Listo para avanzar?",
-    ctaSubtitle: "Tu estudio debe estar bien dirigido.",
-    ctaText:
-      "Usa el material correcto para evolucionar en programación sin perder tiempo en temas dispersos.",
-    whatsappContactMessage:
-      "Hola, me gustaría saber más sobre cómo comenzar mis estudios en programación.",
-    whatsappCourseMessage:
-      "Hola, me gustó el curso de {course}. Quisiera saber más detalles al respecto.",
-    contactLabel: "Contáctanos",
-    cardAction: "Ver más",
-    footerText:
-      "Prof Gabriel Moraes • Entrenamiento y tecnología para quienes aprenden con propósito.",
-    navHome: "Inicio",
-    navMethod: "Aprendizaje",
-    navLive: "Clases",
-    navTech: "Tecnologías",
-    navContact: "Contacto",
-    sectionLive: "Clases en vivo",
-    sectionLiveTitle: "Clases en tiempo real con el profesor",
-    sectionLiveText:
-      "Las clases son en vivo, con interacción directa entre profesor y alumno durante toda la sesión.",
-    sectionLiveSales:
-      "¿Estás cansado de comprar cursos online de programación y no aprender nada porque no puedes resolver tus dudas con el profesor? Haz clases online en vivo en tiempo real con un profesor para que puedas preguntar tus dudas y desarrollar acompañado por él",
-    livePoint1Title: "Apoyo en tiempo real",
-    livePoint1Text:
-      "Haz preguntas, recibe respuestas y feedback mientras la clase se desarrolla.",
-    livePoint2Title: "Ritmo adaptado",
-    livePoint2Text:
-      "El contenido se ajusta a tu nivel para que avances con confianza.",
-    livePoint3Title: "Práctica guiada",
-    livePoint3Text:
-      "Ejercicios y proyectos se realizan con supervisión paso a paso del profesor.",
-    visualBubble: "Aprende con ejemplos prácticos y orientados a objetivos.",
-    aboutEyebrow: "Quién soy",
-    aboutTitle: "Prof. Gabriel Moraes",
-    aboutBio1:
-      "Graduado en Sistemas para Internet por IFSul, con formación en Pedagogía y especialista en Administración, Orientación y Supervisión Escolar y Salud Digital por la UFG, máster en Tecnología de la Información y Gestión en Salud por la UFCSPA con énfasis en Sistemas Inteligentes.",
-    aboutBio2:
-      "Con más de 10 años de experiencia como docente, enseño programación con enfoque práctico y lenguaje accesible. Creo que cualquiera puede aprender a programar cuando el contenido está bien estructurado y el camino es claro.",
-    aboutTechLabel: "Tecnologías que enseño",
-    aboutTechList: ["Python", "C#", "Node", "React Native", "Java"],
-    aboutBadges: [
-      "🎓 IFSul — Sistemas para Internet",
-      "📚 Pedagogía y Supervisión Escolar",
-      "🏥 Salud Digital — UFG",
-      "🤖 Máster TI & Salud — UFCSPA",
-      "🏫 +10 años en aula",
+    navSobre: "Quién enseña",
+    navMetodo: "Método",
+    navTrilhas: "Rutas",
+    navFaq: "Dudas",
+    navContato: "Contacto",
+
+    heroTag: "Mentoría de programación · 1:1 · 100% online",
+    heroTitleA: "Aprende a programar con alguien",
+    heroTitleEm: "a tu lado",
+    heroTitleB: ".",
+    heroLede:
+      "Mentoría individual con plan a medida, proyectos reales y feedback directo: desde tu primer “hola, mundo” hasta un portafolio que abre puertas.",
+    ctaPrimary: "Empezar una conversación",
+    ctaSecondary: "Conocer el método",
+    heroBullets: [
+      "Clases y mentorías individuales, a tu ritmo",
+      "Plan de estudios construido para tu objetivo",
+      "Proyectos reales para tu portafolio",
     ],
-    methodCard1Title: "Aprende con foco",
-    methodCard1Text:
-      "Materiales estructurados en ciclos de aprendizaje rápido para que avances con seguridad.",
-    methodCard2Title: "Contenido relevante",
-    methodCard2Text:
-      "Encuentras los conceptos correctos para crecer de forma práctica y aplicable al mercado.",
-    methodCard3Title: "Soporte continuo",
-    methodCard3Text:
-      "Aprende con seguimiento constante para avanzar sin perder el foco.",
-    methodCard4Title: "Impacto real",
-    methodCard4Text:
-      "Estudia tecnologías usadas en proyectos reales del mercado actual.",
-    stacksTitle: "Stacks completos de aprendizaje",
-    stacksText:
-      "Aprende las tecnologías juntas con rutas organizadas. Cada stack es una vía de aprendizaje pensada para dominar un área específica.",
-    stackNames: {
-      frontend: "Frontend",
-      backend: "Backend",
-      data: "Datos",
-      mobile: "Móvil",
-      languages: "Lenguajes",
+
+    scheduleWith: "Agendar con {name}",
+    statusLine: "Plazas abiertas · 1:1 · online · PT / EN / ES",
+
+    mentors: {
+      gabriel: {
+        role: "Profesor & mentor",
+        cred: "Formación en tecnología y educación",
+        bio: "Une didáctica, estrategia y ejecución para convertir interés en habilidad, con lenguaje accesible y un plan que respeta tu punto de partida.",
+      },
+      arthur: {
+        role: "Profesor & desarrollador",
+        cred: "2º lugar · Feria de Proyectos SENAC 2025",
+        bio: "Enseña construyendo contigo: proyectos prácticos desde el primer día, corrección cercana y la energía de quien programa todos los días.",
+      },
     },
+
+    aboutKicker: "( 01 · Quién enseña )",
+    aboutTitle: "Dos profesores, un mismo método.",
+    aboutLede:
+      "Tú eliges con quién caminar, o combinas a los dos. La didáctica es la misma: práctica de verdad, feedback cercano y cero relleno.",
+    aboutList: [
+      "Enseñanza práctica, clase a clase",
+      "Mentoría orientada a resultados",
+      "Proyectos con aplicación real",
+      "Acompañamiento entre sesiones",
+    ],
+
+    methodKicker: "( 02 · El método )",
+    methodTitle: "Un camino simple, pensado para generar progreso real.",
+    methodLede: "Tres etapas. Ninguna fórmula mágica: dirección, práctica y constancia.",
+    steps: [
+      {
+        tag: "primera charla",
+        title: "Diagnóstico",
+        textBody:
+          "Una conversación para entender tu nivel, tus objetivos y el mejor punto de partida. Sin compromiso y sin juicios.",
+      },
+      {
+        tag: "semana 1",
+        title: "Plan a medida",
+        textBody:
+          "Armamos juntos una ruta enfocada en práctica, claridad y ritmo sostenible. Nada de currículo genérico.",
+      },
+      {
+        tag: "cada semana",
+        title: "Ejecución con feedback",
+        textBody:
+          "Aprendes, aplicas en proyectos, recibes correcciones y ganas confianza para caminar cada vez más solo.",
+      },
+    ],
+
+    tracksKicker: "( 03 · Rutas )",
+    tracksTitle: "Elige por dónde empezar.",
+    tracksLede: "Cuatro rutas, un mismo método. Todas empiezan con una conversación de diagnóstico.",
+    trackAction: "Hablar sobre esta ruta",
+    tracks: [
+      {
+        name: "Frontend",
+        textBody: "Interfaces modernas, UX y desarrollo web completo: HTML, CSS, JavaScript y React.",
+      },
+      {
+        name: "Backend",
+        textBody: "APIs, servidores, bases de datos y lógica de negocio: Node, C# y Java.",
+      },
+      {
+        name: "Mobile",
+        textBody: "Apps móviles con React Native, de la idea a la publicación.",
+      },
+      {
+        name: "Datos",
+        textBody: "Automatización, análisis de datos y Python para proyectos inteligentes.",
+      },
+    ],
+
+    fitKicker: "( 04 · ¿Es para ti? )",
+    fitTitle: "Una buena mentoría es la que sirve para tu momento.",
+    fitYesTitle: "Tiene sentido si tú…",
+    fitYes: [
+      "Empiezas desde cero y quieres dirección clara",
+      "Estudias por tu cuenta pero sientes que no avanzas",
+      "Quieres cambiar de carrera con un plan realista",
+      "Prefieres aprender haciendo, con alguien para preguntar",
+    ],
+    fitNoTitle: "Quizás no sea el momento si tú…",
+    fitNo: [
+      "Buscas una fórmula mágica o resultados de la noche a la mañana",
+      "Solo quieres un certificado, sin tocar código",
+      "No tienes nada de tiempo en la semana para practicar",
+    ],
+
+    faqKicker: "( 05 · Preguntas frecuentes )",
+    faqTitle: "Lo que suelen preguntar antes de empezar.",
+    faqs: [
+      {
+        q: "¿Necesito saber programar?",
+        a: "No. El diagnóstico sirve exactamente para encontrar tu punto de partida: desde cero absoluto hasta avanzado.",
+      },
+      {
+        q: "¿Cómo funcionan las clases?",
+        a: "Encuentros individuales y online, con plan de estudios, proyectos prácticos y acompañamiento entre sesiones.",
+      },
+      {
+        q: "¿Con qué profesor voy a aprender?",
+        a: "Lo eliges en la conversación de diagnóstico, Gabriel o Arthur, según la ruta y los horarios. El método es el mismo con los dos.",
+      },
+      {
+        q: "¿Cuánto cuesta?",
+        a: "Depende del formato: clase suelta o paquete. La primera conversación es gratuita y sin compromiso. Ahí definimos juntos lo que tiene sentido para ti.",
+      },
+      {
+        q: "¿En cuánto tiempo veo resultados?",
+        a: "Depende de tu ritmo y dedicación. Lo que la mentoría garantiza es dirección: siempre sabrás qué estudiar y por qué.",
+      },
+    ],
+
+    ctaTitleA: "¿Listo para",
+    ctaTitleEm: "avanzar de verdad",
+    ctaTitleB: "?",
+    ctaText:
+      "Escríbenos por WhatsApp y cuéntanos en qué punto estás. La primera conversación es gratuita y puede ser el comienzo de un cambio.",
+    ctaButton: "Escribir por WhatsApp",
+    ctaNote: "Respuesta rápida · sin compromiso",
+
+    footerLine: "Enseñanza, estrategia y crecimiento profesional.",
+    floatLabel: "Hablar con los profesores por WhatsApp",
+
+    whatsappContactMessage: "¡Hola! Vi el sitio y quiero saber más sobre la mentoría.",
+    whatsappMentorMessage: "¡Hola! Vi el sitio y quiero hablar sobre mentoría con el profesor {name}.",
+    whatsappCourseMessage: "¡Hola! Vi el sitio y me interesa la ruta de {course}.",
   },
 };
 
-const languages = [
-  { code: "PT", label: "Português" },
-  { code: "EN", label: "English" },
-  { code: "ES", label: "Español" },
+const languages = ["PT", "EN", "ES"];
+const htmlLang = { PT: "pt-BR", EN: "en", ES: "es" };
+
+const MARQUEE = [
+  "Python", "JavaScript", "React", "Node", "C#", "Java",
+  "SQL", "APIs", "Git", "HTML & CSS", "React Native", "TypeScript",
 ];
 
 const whatsappNumber = "555193501176";
 
-const createWhatsAppText = (template, course = "") => {
-  const message = template.replace("{course}", course);
-  return encodeURIComponent(message);
+const createWhatsAppLink = (template, vars = {}) => {
+  let message = template || "";
+  Object.entries(vars).forEach(([key, value]) => {
+    message = message.replace(`{${key}}`, value);
+  });
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message.trim())}`;
 };
 
-const createWhatsAppLink = (template, course = "") => {
-  return `https://wa.me/${whatsappNumber}?text=${createWhatsAppText(template, course)}`;
-};
+const WhatsAppIcon = ({ size = 18 }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
+    <path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.94L2 22l5.2-1.5A9.9 9.9 0 1 0 12.04 2Zm0 1.8a8.1 8.1 0 1 1-4.13 15.08l-.3-.18-3.06.88.9-2.98-.2-.31A8.1 8.1 0 0 1 12.04 3.8Zm-3.3 4.36c-.18 0-.47.07-.72.34-.24.27-.94.92-.94 2.24 0 1.32.96 2.6 1.1 2.78.13.18 1.86 2.98 4.6 4.06 2.28.9 2.74.72 3.24.67.5-.04 1.6-.65 1.83-1.28.22-.63.22-1.17.15-1.28-.06-.11-.24-.18-.51-.31-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.13-.61.14-.18.27-.7.87-.86 1.05-.16.18-.31.2-.58.07-.27-.14-1.14-.42-2.17-1.34-.8-.72-1.34-1.6-1.5-1.87-.16-.27-.02-.42.12-.55.12-.12.27-.32.4-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.13-.6-1.45-.83-1.98-.2-.47-.4-.42-.56-.43l-.56-.02Z" />
+  </svg>
+);
 
 function App() {
-  const [language, setLanguage] = useState("PT");
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [language, setLanguage] = useState(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("gm:lang") : null;
+    return languages.includes(saved) ? saved : "PT";
+  });
   const t = text[language];
 
+  useEffect(() => {
+    document.documentElement.lang = htmlLang[language];
+    localStorage.setItem("gm:lang", language);
+  }, [language]);
+
+  useEffect(() => {
+    const els = document.querySelectorAll("[data-reveal]");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("on"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("on");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const contactLink = createWhatsAppLink(t.whatsappContactMessage);
+  const mentorLink = (mentor) =>
+    createWhatsAppLink(t.whatsappMentorMessage, { name: mentor.firstName });
+
   return (
-    <div className="app-shell">
-      {langMenuOpen && (
-        <div className="overlay" role="dialog" aria-modal="true">
-          <div className="overlay-panel">
-            <div className="overlay-header">
-              <div>
-                <p className="eyebrow">Prof Gabriel Moraes</p>
-                <h2>{t.overlayTitle}</h2>
-              </div>
-              <button
-                className="close-overlay"
-                type="button"
-                onClick={() => setLangMenuOpen(false)}
-                aria-label={t.close}
-              >
-                ×
-              </button>
-            </div>
-            <div className="language-options">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  type="button"
-                  className={`language-option ${lang.code === language ? "active" : ""}`}
-                  onClick={() => {
-                    setLanguage(lang.code);
-                    setLangMenuOpen(false);
-                  }}
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="page">
+      <a className="skip-link" href="#inicio">
+        {t.navContato}
+      </a>
 
-      {/* ── HEADER ── */}
-      <header className="site-header">
+      <header className="topbar">
         <a href="#inicio" className="brand">
-          <div
-            style={{
-              background: "#0F172A",
-              borderRadius: 14,
-              width: 48,
-              height: 48,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}
-          >
-            <svg
-              viewBox="0 0 104 104"
-              width="32"
-              height="32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#6C63FF" />
-                  <stop offset="100%" stopColor="#22D3EE" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M30 30 L16 52 L30 74"
-                stroke="url(#lg)"
-                strokeWidth="7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M74 30 L88 52 L74 74"
-                stroke="url(#lg)"
-                strokeWidth="7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <line
-                x1="62"
-                y1="26"
-                x2="42"
-                y2="78"
-                stroke="#22D3EE"
-                strokeWidth="6"
-                strokeLinecap="round"
-              />
-              <circle cx="90" cy="18" r="10" fill="#6C63FF" />
-              <circle cx="90" cy="18" r="5" fill="#22D3EE" />
-            </svg>
-          </div>
-          <div style={{ lineHeight: 1.1 }}>
-            <span
-              style={{
-                display: "block",
-                fontSize: 10,
-                letterSpacing: 3,
-                color: "#94A3B8",
-                fontWeight: 400,
-              }}
-            >
-              PROF
-            </span>
-            <strong style={{ fontSize: 17, letterSpacing: -0.3 }}>
-              Gabriel <span style={{ fontWeight: 300 }}>Moraes</span>
-            </strong>
-          </div>
-
-          <button
-            type="button"
-            className="button button-lang button-lang-mobile"
-            onClick={() => setLangMenuOpen(true)}
-            aria-label={t.languageButton ?? "Alterar idioma"}
-          >
-            {language}
-          </button>
+          <span className="brand-prof">prof.</span>
+          <span className="brand-name">
+            Gabriel Moraes<span className="brand-dot">.</span>
+          </span>
         </a>
 
-        <div className="header-right">
+        <nav className="topnav" aria-label="Menu principal">
+          <a href="#sobre">{t.navSobre}</a>
+          <a href="#metodo">{t.navMetodo}</a>
+          <a href="#trilhas">{t.navTrilhas}</a>
+          <a href="#faq">{t.navFaq}</a>
+        </nav>
 
-          <nav className="main-nav" aria-label="Menu principal">
-            <a href="#inicio">{t.navHome}</a>
-            <a href="#metodo">{t.navMethod}</a>
-            <a href="#aulas">{t.navLive}</a>
-            <a href="#tecnologias">{t.navTech}</a>
-            <a href="#contato">{t.navContact}</a>
-          </nav>
+        <div className="topbar-right">
+          <div className="lang-switch" role="group" aria-label="Idioma">
+            {languages.map((code) => (
+              <button
+                key={code}
+                type="button"
+                className={code === language ? "active" : ""}
+                aria-pressed={code === language}
+                onClick={() => setLanguage(code)}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
+          <a className="btn btn-ink btn-small" href={contactLink} target="_blank" rel="noopener noreferrer">
+            {t.navContato}
+          </a>
         </div>
-
-        <button
-          type="button"
-          className="button button-lang button-lang-desktop"
-          onClick={() => setLangMenuOpen(true)}
-          aria-label={t.languageButton ?? "Alterar idioma"}
-        >
-          {language}
-        </button>
       </header>
 
       <main>
-        {/* ── HERO ── */}
-        <section id="inicio" className="section hero section-hero">
+        {/* ------------------------------------------------ hero */}
+        <section id="inicio" className="hero">
           <div className="hero-copy">
-            <p className="eyebrow">{t.sectionLive}</p>
-            <h1>{t.sectionLiveTitle}</h1>
-            <p className="hero-text">{t.sectionLiveText}</p>
-            <p className="live-sales">{t.sectionLiveSales}</p>
+            <p className="kicker hero-kicker">{t.heroTag}</p>
+            <h1>
+              {t.heroTitleA} <em className="mark">{t.heroTitleEm}</em>
+              {t.heroTitleB}
+            </h1>
+            <p className="lede">{t.heroLede}</p>
 
             <div className="hero-actions">
-              <a href="#stacks" className="button button-primary">
+              <a className="btn btn-ink" href={contactLink} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
                 {t.ctaPrimary}
               </a>
-              <a href="#tecnologias" className="button button-secondary">
-                {t.ctaSecondary}
+              <a className="btn btn-ghost" href="#metodo">
+                {t.ctaSecondary} ↓
               </a>
             </div>
 
-            <div className="hero-highlights">
-              <div>
-                <strong>{t.livePoint1Title}</strong>
-                <span>{t.livePoint1Text}</span>
-              </div>
-              <div>
-                <strong>{t.livePoint2Title}</strong>
-                <span>{t.livePoint2Text}</span>
-              </div>
-              <div>
-                <strong>{t.livePoint3Title}</strong>
-                <span>{t.livePoint3Text}</span>
-              </div>
-            </div>
+            <ul className="hero-bullets">
+              {t.heroBullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
 
-          <div className="hero-visual">
-            <div className="card-visual">
-              <img
-                src="/hero img.png"
-                alt="Hero"
-                aria-hidden="true"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-              <div className="visual-bubble">{t.visualBubble}</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── ABOUT / QUEM SOU EU ── */}
-        <section id="sobre" className="section section-about">
-          <div className="about-card">
-            <div className="about-left">
-              <div className="about-avatar">
-                <img src="/logo.png" alt="Prof. Gabriel Moraes" />
-              </div>
-              <div className="about-name">
-                <p className="eyebrow">{t.aboutEyebrow}</p>
-                <h2>
-                  Prof. Gabriel
-                  <br />
-                  Moraes
-                </h2>
-              </div>
-            </div>
-
-            <div className="about-right">
-              <p className="about-text">
-                Graduado em <strong>Sistemas para Internet</strong> pelo IFSul
-                com formação pedagógica em Pedagogia, especialista em{" "}
-                <strong>Administração, Orientação e Supervisão Escolar</strong>{" "}
-                e especialista em <strong>Saúde Digital</strong> pela UFG,
-                mestre em{" "}
-                <strong>Tecnologia da Informação e Gestão em Saúde</strong> pela
-                UFCSPA com ênfase em <strong>Sistemas Inteligentes</strong>.
-              </p>
-
-              <p className="about-text">
-                Com <strong>mais de 10 anos de experiência</strong> como
-                professor na rede escolar, atua no ensino de programação com
-                foco em resultados práticos e linguagem acessível. Acredita que
-                qualquer pessoa pode aprender a programar quando o conteúdo é
-                bem estruturado e o caminho é claro.
-              </p>
-
-              <div className="about-tech">
-                <p className="about-tech-label">Tecnologias que ensina</p>
-                <div className="about-tech-list">
-                  {["Python", "C#", "Node", "React Native", "Java"].map(
-                    (tech) => (
-                      <span key={tech} className="about-tech-tag">
-                        {tech}
-                      </span>
-                    ),
-                  )}
+          <aside className="hero-card-wrap" aria-label={t.navSobre}>
+            <div className="hero-cards">
+              {MENTORS.map((mentor) => (
+                <div key={mentor.id} className="hero-card">
+                  <span className="tape" aria-hidden="true" />
+                  <div className="hero-card-head">
+                    <img
+                      src={mentor.photo}
+                      alt={mentor.alt}
+                      width="60"
+                      height="60"
+                      style={{ objectPosition: mentor.photoPos }}
+                    />
+                    <div>
+                      <p className="hero-card-role">{t.mentors[mentor.id].role}</p>
+                      <p className="hero-card-name">{mentor.name}</p>
+                    </div>
+                  </div>
+                  <div className="hero-card-tags">
+                    {mentor.techs.map((tech) => (
+                      <span key={tech}>{tech}</span>
+                    ))}
+                  </div>
+                  <a
+                    className="btn btn-blue"
+                    href={mentorLink(mentor)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t.scheduleWith.replace("{name}", mentor.firstName)}
+                  </a>
                 </div>
-              </div>
-
-              <div className="about-badges">
-                <span className="about-badge">
-                  🎓 IFSul — Sistemas para Internet
-                </span>
-                <span className="about-badge">
-                  📚 Pedagogia & Supervisão Escolar
-                </span>
-                <span className="about-badge">🏥 Saúde Digital — UFG</span>
-                <span className="about-badge">
-                  🤖 Mestrado TI & Saúde — UFCSPA
-                </span>
-                <span className="about-badge">🏫 +5 anos em sala de aula</span>
-              </div>
+              ))}
             </div>
-          </div>
-        </section>
-        <section id="sobre-arthur" className="section section-about">
-          <div className="about-card">
-            <div className="about-left">
-              <div className="about-avatar">
-                <img src="/ftArthur.png" alt="Arthur Cidade Mattjie" />
-              </div>
-              <div className="about-name">
-                <p className="eyebrow">{t.aboutEyebrow}</p>
-                <h2>
-                  Prof. Arthur
-                  <br />
-                  Mattjie
-                </h2>
-              </div>
-            </div>
-
-            <div className="about-right">
-              <p className="about-text">
-                Técnico em <strong>Desenvolvimento de Sistemas</strong>, com experiência em
-                desenvolvimento web, criação de aplicações modernas e soluções digitais.
-                Atua utilizando tecnologias como <strong>JavaScript, React, Tailwindcss </strong>
-                e ferramentas voltadas para a construção de interfaces intuitivas,
-                responsivas e de alta performance.
-              </p>
-
-              <p className="about-text">
-                Apaixonado por tecnologia e inovação, busca constantemente aprimorar suas
-                habilidades e acompanhar as tendências do mercado. Seu foco está em
-                transformar ideias em projetos funcionais, unindo qualidade técnica,
-                experiência do usuário e boas práticas de desenvolvimento.
-              </p>
-
-              <div className="about-tech">
-                <p className="about-tech-label">Tecnologias que ensina</p>
-                <div className="about-tech-list">
-                  {["Typescript", "React", "Node", "Tailwindcss", "TypeOrm", "Mysql", "PostgreSQL", "Bootstrap"].map(
-                    (tech) => (
-                      <span key={tech} className="about-tech-tag">
-                        {tech}
-                      </span>
-                    ),
-                  )}
-                </div>
-              </div>
-
-              <div className="about-badges">
-                <span className="about-badge">
-                  🎓 Senac — Tecnico em Desenvolvimento de Sistemas
-                </span>
-                <span className="about-badge">
-                  📚 Pedagogia & Supervisão Escolar
-                </span>
-
-
-              </div>
-            </div>
-          </div>
+            <p className="hero-status">
+              <span className="dot" aria-hidden="true" />
+              {t.statusLine}
+            </p>
+          </aside>
         </section>
 
-        {/* ── MÉTODO ── */}
-        <section id="metodo" className="section section-grid">
-          <div className="section-header">
-            <p className="eyebrow">{t.sectionHow}</p>
-            <h2>{t.sectionHowTitle}</h2>
-            <p className="section-description">{t.sectionHowText}</p>
-          </div>
-          <div className="grid-cards">
-            <article className="info-card">
-              <div className="icon icon-code" aria-hidden="true">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16 14L8 24L16 34"
-                    stroke="#4F46E5"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M32 14L40 24L32 34"
-                    stroke="#4F46E5"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M24 10H16C12.6863 10 10 12.6863 10 16V32C10 35.3137 12.6863 38 16 38H24"
-                    stroke="#4F46E5"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <h3>{t.methodCard1Title}</h3>
-              <p>{t.methodCard1Text}</p>
-            </article>
-
-            <article className="info-card">
-              <div className="icon icon-light" aria-hidden="true">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 15C19.5817 15 16 18.5817 16 23C16 25.7665 17.2314 28.2684 19.2856 30.0788C20.3735 31.0104 21 32.3728 21 33.8824V36H27V33.8824C27 32.3728 27.6265 31.0104 28.7144 30.0788C30.7686 28.2684 32 25.7665 32 23C32 18.5817 28.4183 15 24 15Z"
-                    stroke="#10B981"
-                    strokeWidth="4"
-                  />
-                  <path
-                    d="M24 38V44"
-                    stroke="#10B981"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <h3>{t.methodCard2Title}</h3>
-              <p>{t.methodCard2Text}</p>
-            </article>
-
-            <article className="info-card">
-              <div className="icon icon-rocket" aria-hidden="true">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M18 30L10 42L20 36L18 30Z" fill="#F59E0B" />
-                  <path d="M30 30L38 42L28 36L30 30Z" fill="#F59E0B" />
-                  <path
-                    d="M24 8C18 8 13.5 11.9 12 17.3C10.8 21.4 11.7 26.3 13.9 30.1L24 44L34.1 30.1C36.3 26.3 37.2 21.4 36 17.3C34.5 11.9 30 8 24 8Z"
-                    stroke="#F97316"
-                    strokeWidth="4"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="24" cy="20" r="4" fill="#F97316" />
-                </svg>
-              </div>
-              <h3>{t.methodCard4Title}</h3>
-              <p>{t.methodCard4Text}</p>
-            </article>
-
-            <article className="info-card">
-              <div className="icon icon-support" aria-hidden="true">
-                <svg
-                  viewBox="0 0 48 48"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 12C17.3726 12 12 17.3726 12 24C12 30.6274 17.3726 36 24 36C30.6274 36 36 30.6274 36 24C36 17.3726 30.6274 12 24 12Z"
-                    stroke="#38BDF8"
-                    strokeWidth="4"
-                  />
-                  <path
-                    d="M24 18V24"
-                    stroke="#38BDF8"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M24 28H24.01"
-                    stroke="#38BDF8"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <h3>{t.methodCard3Title}</h3>
-              <p>{t.methodCard3Text}</p>
-            </article>
-          </div>
-        </section>
-
-        {/* ── TECNOLOGIAS ── */}
-        <section id="tecnologias" className="section section-tecnologias">
-          <div className="section-header">
-            <p className="eyebrow">{t.navTech}</p>
-            <h2>{t.techTitle}</h2>
-            <p className="section-description">{t.techSubtitle}</p>
-          </div>
-          <div className="tech-stack-grid">
-            {[
-              {
-                label: "JavaScript",
-                description: "Linguagem essencial para o front-end moderno.",
-              },
-              {
-                label: "TypeScript",
-                description: "Tipagem que deixa o código mais confiável.",
-              },
-              {
-                label: "HTML",
-                description: "Estrutura e semântica para páginas acessíveis.",
-              },
-              {
-                label: "CSS",
-                description: "Design visual com estilos profissionais.",
-              },
-              {
-                label: "TailwindCSS",
-                description: "UI rápida e moderna com utilitários.",
-              },
-              {
-                label: "Bootstrap",
-                description: "Templates para projetos rápidos.",
-              },
-              {
-                label: "React",
-                description: "Construção de interfaces reativas e escaláveis.",
-              },
-              {
-                label: "React Native",
-                description: "Apps móveis nativos com a mesma base web.",
-              },
-              {
-                label: "Python",
-                description:
-                  "Linguagem versátil para scripts, automação e ciência de dados.",
-              },
-              {
-                label: "Node",
-                description:
-                  "Plataforma de desenvolvimento ágil para APIs e serviços.",
-              },
-              {
-                label: "Express",
-                description:
-                  "Servidor web simples e flexível para rotas e APIs.",
-              },
-              {
-                label: "TypeORM",
-                description: "ORM para organizar dados com TypeScript.",
-              },
-              {
-                label: "MySQL",
-                description: "Banco relacional usado em projetos empresariais.",
-              },
-              {
-                label: "PostgreSQL",
-              },
-              {
-                label: "MongoDB",
-                description: "Banco NoSQL ideal para dados flexíveis.",
-              },
-              {
-                label: "PHP",
-                description:
-                  "Plataforma popular para back-end e sites dinâmicos.",
-              },
-              {
-                label: "Java",
-                description: "Linguagem robusta para sistemas de grande porte.",
-              },
-              {
-                label: "C#",
-                description: "Desenvolvimento profissional em apps e jogos.",
-              },
-            ].map((tech) => (
-              <a
-                key={tech.label}
-                className="tech-pill"
-                href={createWhatsAppLink(t.whatsappCourseMessage, tech.label)}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${t.cardAction} ${tech.label}`}
-              >
-                <div>
-                  <h3>{tech.label}</h3>
-                  <p>{tech.description}</p>
-                </div>
-                <span className="tech-action">{t.cardAction}</span>
-              </a>
+        {/* ------------------------------------------------ marquee */}
+        <div className="marquee" aria-hidden="true">
+          <div className="marquee-track">
+            {[...MARQUEE, ...MARQUEE].map((item, i) => (
+              <span key={`${item}-${i}`}>
+                {item}
+                <i>✳</i>
+              </span>
             ))}
           </div>
+        </div>
 
-          <div id="stacks" className="tech-stacks-container">
-            <h3
-              style={{
-                textAlign: "center",
-                marginBottom: "0.5rem",
-                fontSize: "2.5rem",
-                fontWeight: 700,
-                background: "linear-gradient(135deg, #6c63ff, #22d3ee)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              {t.stacksTitle}
-            </h3>
-            <p
-              style={{
-                textAlign: "center",
-                color: "#cbd5e1",
-                fontSize: "1rem",
-                marginBottom: "3rem",
-                maxWidth: "600px",
-                margin: "0 auto 3rem",
-                lineHeight: "1.6",
-              }}
-            >
-              {t.stacksText}
-            </p>
-            <div className="tech-stacks-grid stacks-animated">
-              <div className="tech-stack-card">
-                <h4>{t.stackNames.frontend}</h4>
-                <div className="stack-tags">
-                  <span className="stack-tag">HTML</span>
-                  <span className="stack-tag">CSS</span>
-                  <span className="stack-tag">JavaScript</span>
-                  <span className="stack-tag">React</span>
-                  <span className="stack-tag">TailwindCSS</span>
-                </div>
-                <a
-                  href={createWhatsAppLink(
-                    t.whatsappCourseMessage,
-                    t.stackNames.frontend,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-button"
-                >
-                  {t.cardAction}
-                </a>
-              </div>
-
-              <div className="tech-stack-card">
-                <h4>{t.stackNames.backend}</h4>
-                <div className="stack-tags">
-                  <span className="stack-tag">Node</span>
-                  <span className="stack-tag">Express</span>
-                  <span className="stack-tag">TypeScript</span>
-                  <span className="stack-tag">TypeORM</span>
-                  <span className="stack-tag">PHP</span>
-                </div>
-                <a
-                  href={createWhatsAppLink(
-                    t.whatsappCourseMessage,
-                    t.stackNames.backend,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-button"
-                >
-                  {t.cardAction}
-                </a>
-              </div>
-
-              <div className="tech-stack-card">
-                <h4>{t.stackNames.data}</h4>
-                <div className="stack-tags">
-                  <span className="stack-tag">MySQL</span>
-                  <span className="stack-tag">MongoDB</span>
-                  <span className="stack-tag">Python</span>
-                  <span className="stack-tag">TypeORM</span>
-                </div>
-                <a
-                  href={createWhatsAppLink(
-                    t.whatsappCourseMessage,
-                    t.stackNames.data,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-button"
-                >
-                  {t.cardAction}
-                </a>
-              </div>
-
-              <div className="tech-stack-card">
-                <h4>{t.stackNames.mobile}</h4>
-                <div className="stack-tags">
-                  <span className="stack-tag">React Native</span>
-                  <span className="stack-tag">JavaScript</span>
-                  <span className="stack-tag">TypeScript</span>
-                </div>
-                <a
-                  href={createWhatsAppLink(
-                    t.whatsappCourseMessage,
-                    t.stackNames.mobile,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-button"
-                >
-                  {t.cardAction}
-                </a>
-              </div>
-
-              <div className="tech-stack-card">
-                <h4>{t.stackNames.languages}</h4>
-                <div className="stack-tags">
-                  <span className="stack-tag">JavaScript</span>
-                  <span className="stack-tag">TypeScript</span>
-                  <span className="stack-tag">Python</span>
-                  <span className="stack-tag">Java</span>
-                  <span className="stack-tag">C#</span>
-                </div>
-                <a
-                  href={createWhatsAppLink(
-                    t.whatsappCourseMessage,
-                    t.stackNames.languages,
-                  )}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="stack-button"
-                >
-                  {t.cardAction}
-                </a>
-              </div>
-            </div>
+        {/* ------------------------------------------------ quem ensina */}
+        <section id="sobre" className="section" data-reveal>
+          <p className="kicker">{t.aboutKicker}</p>
+          <div className="section-head">
+            <h2>{t.aboutTitle}</h2>
+            <p>{t.aboutLede}</p>
           </div>
-        </section>
 
-        {/* ── FLUXO IDEAL ── */}
-        <section className="section section-path">
-          <div className="section-header">
-            <p className="eyebrow">{t.sectionHow}</p>
-            <h2>{t.planTitle}</h2>
-          </div>
-          <div className="path-list">
-            {[
-              { num: "1", title: t.path1Title, text: t.path1Text },
-              { num: "2", title: t.path2Title, text: t.path2Text },
-              { num: "3", title: t.path3Title, text: t.path3Text },
-            ].map(({ num, title, text: txt }, i) => (
-              <article key={num}>
-                <div className="path-step-left">
-                  <span className="path-number">{num}</span>
-                  {i < 2 && <div className="path-connector" />}
+          <div className="mentors-grid">
+            {MENTORS.map((mentor) => (
+              <article key={mentor.id} className="mentor-profile">
+                <span className="tape" aria-hidden="true" />
+                <div className="mentor-head">
+                  <img
+                    src={mentor.photo}
+                    alt={mentor.alt}
+                    width="96"
+                    height="96"
+                    style={{ objectPosition: mentor.photoPos }}
+                  />
+                  <div>
+                    <p className="mentor-role">{t.mentors[mentor.id].role}</p>
+                    <h3>{mentor.name}</h3>
+                    <p className="mentor-cred">{t.mentors[mentor.id].cred}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{txt}</p>
+                <p className="mentor-bio">{t.mentors[mentor.id].bio}</p>
+                <div className="chip-row">
+                  {mentor.techs.map((tech) => (
+                    <span key={tech} className="chip">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
+                <a
+                  className="mentor-cta"
+                  href={mentorLink(mentor)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t.scheduleWith.replace("{name}", mentor.firstName)}{" "}
+                  <span aria-hidden="true">→</span>
+                </a>
               </article>
             ))}
           </div>
+
+          <ul className="plus-list plus-row">
+            {t.aboutList.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
 
-        {/* ── CONTATO / CTA ── */}
-        <section id="contato" className="section section-cta">
-          <div className="cta-card">
-            <p className="eyebrow cta-eyebrow">{t.ctaTitle}</p>
-            <h2>{t.ctaSubtitle}</h2>
-            <p>{t.ctaText}</p>
-            <a
-              href={createWhatsAppLink(t.whatsappContactMessage)}
-              target="_blank"
-              rel="noreferrer"
-              className="cta-btn"
-            >
-              {t.contactLabel}
-            </a>
+        {/* ------------------------------------------------ método */}
+        <section id="metodo" className="section" data-reveal>
+          <p className="kicker">{t.methodKicker}</p>
+          <div className="section-head">
+            <h2>{t.methodTitle}</h2>
+            <p>{t.methodLede}</p>
           </div>
+          <ol className="steps">
+            {t.steps.map((step, index) => (
+              <li key={step.title} className="step">
+                <span className="step-number" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <div className="step-body">
+                  <h3>{step.title}</h3>
+                  <p>{step.textBody}</p>
+                </div>
+                <span className="step-tag">{step.tag}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* ------------------------------------------------ trilhas */}
+        <section id="trilhas" className="section" data-reveal>
+          <p className="kicker">{t.tracksKicker}</p>
+          <div className="section-head">
+            <h2>{t.tracksTitle}</h2>
+            <p>{t.tracksLede}</p>
+          </div>
+          <div className="tracks">
+            {t.tracks.map((track, index) => (
+              <a
+                key={track.name}
+                className="track"
+                href={createWhatsAppLink(t.whatsappCourseMessage, { course: track.name })}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="track-index" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <h3 className="track-name">{track.name}</h3>
+                <p className="track-text">{track.textBody}</p>
+                <span className="track-cta">
+                  {t.trackAction} <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ fit */}
+        <section id="fit" className="section" data-reveal>
+          <p className="kicker">{t.fitKicker}</p>
+          <div className="section-head">
+            <h2>{t.fitTitle}</h2>
+          </div>
+          <div className="fit-grid">
+            <div className="fit-panel fit-yes">
+              <h3>{t.fitYesTitle}</h3>
+              <ul>
+                {t.fitYes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="fit-panel fit-no">
+              <h3>{t.fitNoTitle}</h3>
+              <ul>
+                {t.fitNo.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ faq */}
+        <section id="faq" className="section" data-reveal>
+          <p className="kicker">{t.faqKicker}</p>
+          <div className="section-head">
+            <h2>{t.faqTitle}</h2>
+          </div>
+          <div className="faq">
+            {t.faqs.map((item) => (
+              <details key={item.q}>
+                <summary>
+                  {item.q}
+                  <span className="faq-plus" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ cta final */}
+        <section id="contato" className="cta" data-reveal>
+          <h2>
+            {t.ctaTitleA} <em className="mark">{t.ctaTitleEm}</em>
+            {t.ctaTitleB}
+          </h2>
+          <p>{t.ctaText}</p>
+          <a className="btn btn-wa" href={contactLink} target="_blank" rel="noopener noreferrer">
+            <WhatsAppIcon size={20} />
+            {t.ctaButton}
+          </a>
+          <p className="cta-note">{t.ctaNote}</p>
         </section>
       </main>
 
-      {/* ── FOOTER ── */}
-      <footer className="site-footer">
-        <p>{t.footerText}</p>
-        <div className="footer-links">
-          <a href="#inicio">{t.navHome}</a>
-          <a href="#metodo">{t.navMethod}</a>
-          <a href="#tecnologias">{t.navTech}</a>
-        </div>
+      <footer className="footer">
+        <p>
+          <strong>Gabriel Moraes & Arthur</strong> · {t.footerLine}
+        </p>
+        <nav aria-label="Rodapé">
+          <a href="#sobre">{t.navSobre}</a>
+          <a href="#metodo">{t.navMetodo}</a>
+          <a href="#trilhas">{t.navTrilhas}</a>
+          <a href="#faq">{t.navFaq}</a>
+        </nav>
+        <p className="footer-year">© {new Date().getFullYear()}</p>
       </footer>
+
+      <a
+        className="float-wa"
+        href={contactLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.floatLabel}
+        title={t.floatLabel}
+      >
+        <WhatsAppIcon size={26} />
+      </a>
     </div>
   );
 }
